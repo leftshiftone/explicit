@@ -1,0 +1,54 @@
+/*
+ * Copyright (c) 2016-2019, Leftshift One
+ * __________________
+ * [2019] Leftshift One
+ * All Rights Reserved.
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Leftshift One and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Leftshift One
+ * and its suppliers and may be covered by Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Leftshift One.
+ */
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "com.netflix.nebula:nebula-release-plugin:8.0.3"
+    }
+}
+
+apply plugin: "antlr"
+apply plugin: "nebula.nebula-release"
+
+dependencies {
+    antlr "org.antlr:antlr4:4.8"
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+generateGrammarSource {
+    outputDirectory = new File(project.rootDir, "explicit-java/build/generated-src/antlr/explicit/antlr")
+    arguments += ["-visitor", "-package", "explicit.antlr"]
+}
+
+//noinspection GroovyAssignabilityCheck
+task generateGrammarSourcePython() << {
+    project.generateGrammarSource {
+        outputDirectory = new File(project.rootDir, "explicit-python/nerulez/antlr")
+        arguments += ["-visitor", "-Dlanguage=Python3"]
+        doLast {
+            File file = new File(project.rootDir, "explicit-python/explicit/antlr/__init__.py")
+            file.write ""
+        }
+    }.execute()
+}

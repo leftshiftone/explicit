@@ -1,0 +1,110 @@
+<price>
+    <labels>
+        <currency>euro</currency>
+        <currency>€</currency>
+        <currency>eur</currency>
+        <currency>dollar</currency>
+        <currency>$</currency>
+    </labels>
+    <mappings>
+        <mapping inbound="€" outbound="euro" />
+        <mapping inbound="eur" outbound="euro" />
+        <mapping inbound="$" outbound="dollar" />
+    </mappings>
+    <features>
+        <defaultCurrency>euro</defaultCurrency>
+    </features>
+    <tokens>
+        <token pattern="p.p" replacement="pro person" />
+        <token pattern="(ca)." regex="true" />
+        <token pattern="([0-9]+\.[0-9]+)(\-)([0-9]+\.[0-9]+)" regex="true" />
+        <token pattern="[0-9]+\.[0-9]+,\-" regex="true" />
+        <token pattern="[0-9]+,\-" regex="true" />
+        <token pattern="([0-9]+\.[0-9]+)([€$])" regex="true" />
+        <token pattern="[0-9]+\.[0-9]+" regex="true" />
+    </tokens>
+    <rule>
+        <gql>* für {number} personen nicht mehr als {number}:amount #currency:currency</gql>
+        <ner>
+            <amount>toNumber($amount)</amount>
+            <currency>first($currency, $defaultCurrency)</currency>
+            <scope>"total"</scope>
+            <negation>false</negation>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* (pro person)?:perPerson nicht mehr als {number}:amount #currency:currency (pro person)?:perPerson</gql>
+        <ner>
+            <amount>toNumber($amount)</amount>
+            <currency>first($currency, $defaultCurrency)</currency>
+            <scope>ternary(isPresent("perPerson"), "person", "total")</scope>
+            <negation>false</negation>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* (pro person)?:perPerson {number}:amount1 #currency? [/ bis -] {number}:amount2 #currency:currency (pro person)?:perPerson *</gql>
+        <ner>
+            <amountMin>toNumber($amount1)</amountMin>
+            <amountMax>toNumber($amount2)</amountMax>
+            <currency>first($currency, $defaultCurrency)</currency>
+            <scope>ternary(isPresent("perPerson"), "person", "total")</scope>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* (pro person)?:perPerson bis {number}:amount ,? -? #currency:currency (pro person)?:perPerson *</gql>
+        <ner>
+            <amount>toNumber($amount)</amount>
+            <currency>$currency</currency>
+            <scope>ternary(isPresent("perPerson"), "person", "total")</scope>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* {number}:amount #currency?:currency pro [person p] *</gql>
+        <ner>
+            <amount>toNumber($amount)</amount>
+            <currency>first($currency, $defaultCurrency)</currency>
+            <scope>"person"</scope>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* {number}:amount #currency:currency (pro kopf) *</gql>
+        <ner>
+            <amount>toNumber($amount)</amount>
+            <currency>$currency</currency>
+            <scope>"person"</scope>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* (pro kopf) {number}:amount #currency:currency *</gql>
+        <ner>
+            <amount>toNumber($amount)</amount>
+            <currency>$currency</currency>
+            <scope>"person"</scope>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* !nicht !über {number}:amount #currency:currency *</gql>
+        <ner>
+            <amount>toNumber($amount)</amount>
+            <currency>$currency</currency>
+            <scope>"total"</scope>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* ~günstig *</gql>
+        <ner>
+            <priceCategory>"cheap"</priceCategory>
+            <sensibility>"high"</sensibility>
+            <currency>$defaultCurrency</currency>
+        </ner>
+    </rule>
+    <rule>
+        <gql>* (pro person)?:perPerson nicht über {number}:amount #currency:currency (pro person)?:perPerson</gql>
+        <ner>
+            <amount>toNumber($amount)</amount>
+            <currency>first($currency, $defaultCurrency)</currency>
+            <negation>false</negation>
+            <scope>ternary(isPresent("perPerson"), "person", "total")</scope>
+        </ner>
+    </rule>
+</price>

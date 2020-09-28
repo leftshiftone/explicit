@@ -1,0 +1,26 @@
+<rulez name="bool">
+    <rule>
+        <gql>A</gql>
+        <ner>
+            <a>true</a>
+            <b>false</b>
+            <c>false</c>
+        </ner>
+    </rule>
+    <rule>
+        <gql>B</gql>
+        <ner>
+            <a>false</a>
+            <b>true</b>
+            <c>false</c>
+        </ner>
+    </rule>
+    <rule>
+        <gql>C</gql>
+        <ner>
+            <a>false</a>
+            <b>false</b>
+            <c>true</c>
+        </ner>
+    </rule>
+</rulez>
