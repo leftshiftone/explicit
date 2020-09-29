@@ -6,7 +6,7 @@ a rule based approach can lead for specific tasks to faster and more accurate re
 
 ## Usage Named Entity Recognition (Kotlin)
 ````kotlin
-val config = ExplicitXmlParser().parse("./config.xml")
+val config = ExplicitXmlParser().parse("./explicit-config.xml")
 val engine = ExplicitEngine(config)
 
 engine.execute("a sentence for named entity recognition")
@@ -30,7 +30,7 @@ An explicit configuration file starts with an <explicit /> tag which contains th
 <explicit name="price" />
 ````
 
-## Rule
+## Rules
 Explicit configuration files can contain multiple exlicit rules.
 Each rule defines an EQL expression in combination with a group of ERL expressions.
 If the EQL expression matches the input text each ERL expression is resolved to a variable value
@@ -49,7 +49,7 @@ amount as well as currency in the result object.
 </rule>
 ````
 
-## tokens
+## Tokens
 
 The tokenizer splits the text at every whitespace, special character and char type switch.
 For example the text "abc 123 abc§$%" is tokenized to [abc, 123, abc, §, $, %].
