@@ -1,12 +1,12 @@
 import unittest
 
-from explicit.parser.xml.XmlExplicitRulesParser import XmlExplicitRulesParser
+from explicit.parser.xml.ExplicitXmlParser import ExplicitXmlParser
 
 
 class XmlExplicitRulesParserTest(unittest.TestCase):
 
     def test_tokenization(self):
-        parser = XmlExplicitRulesParser()
+        parser = ExplicitXmlParser()
         rulez = parser.parse("D:/IntellijProjects/nerulez/src/main/resources/de/datetime.xml")
 
         self.assertTrue(len(rulez.mappings) > 0)

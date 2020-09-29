@@ -1,7 +1,7 @@
 import unittest
 
 from explicit.ExplicitEngine import ExplicitEngine
-from explicit.parser.xml.XmlExplicitRulesParser import XmlExplicitRulesParser
+from explicit.parser.xml.ExplicitXmlParser import ExplicitXmlParser
 
 
 class DEPriceTest(unittest.TestCase):
@@ -9,7 +9,7 @@ class DEPriceTest(unittest.TestCase):
     def test(self):
         # logging.basicConfig(level = logging.DEBUG)
 
-        rulez = XmlExplicitRulesParser().parse("../../src/main/resources/de/price.xml")
+        rulez = ExplicitXmlParser().parse("../../src/main/resources/de/price.xml")
         engine = ExplicitEngine(rulez)
 
         result = engine.execute("800 / 900 euro")

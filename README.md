@@ -1,8 +1,135 @@
 # explicit
 
-Explicit is a library for rule based intent detection and named entity recognition.
+Explicit is a cross platform library for rule based intent detection and named entity recognition.
 Although machine learning is the often preferred way to solve this kind of tasks
 a rule based approach can lead for specific tasks to faster and more accurate results.
+
+## Usage Named Entity Recognition (Kotlin)
+````kotlin
+val config = ExplicitXmlParser().parse("./config.xml")
+val engine = ExplicitEngine(config)
+
+engine.execute("a sentence for named entity recognition")
+````
+
+## Supported programming languages
+* Java
+* Python
+
+## Setup
+In order to generate the ANTLR sources invoke the gradle tasks generateGrammarSource and generateGrammarSourcePython.
+
+# Explicit Configuration File
+For the use of named entity recognition, a configuration file is used to define the explicit rules.
+The library has a canonical data format where configuration from different file formats can be transferred to.
+At the moment only the xml file format is supported.
+
+An explicit configuration file starts with an <explicit /> tag which contains the name of the NER entity class.
+
+````xml
+<explicit name="price" />
+````
+
+## Rule
+Explicit configuration files can contain multiple exlicit rules.
+Each rule defines an EQL expression in combination with a group of ERL expressions.
+If the EQL expression matches the input text each ERL expression is resolved to a variable value
+which is stored in the result value.
+
+For example the following rule matches input texts like "100 euro" or "20 €" and stores the variables
+amount as well as currency in the result object.
+
+````xml
+<rule>
+    <gql>{number}:amount #currency</gql>
+    <ner>
+        <amount>toNumber($amount)</amount>
+        <currency>first($currency, $defaultCurrency)</currency>
+    </ner>
+</rule>
+````
+
+## tokens
+
+The tokenizer splits the text at every whitespace, special character and char type switch.
+For example the text "abc 123 abc§$%" is tokenized to [abc, 123, abc, §, $, %].
+This behaviour can be extended by configuring custom tokens. A token can be a static character sequence
+or a regex. Tokens can automatically be replaced with a "replacement" character sequence. Also tokens
+can be defined as a boundary token which means that the token is allowed to be at the end of the text.
+
+**Token attributes:**
+pattern:     the token pattern
+replacement: the character sequence which replaces the matched token
+regex:       indicates whether the pattern is a regex (default false)
+boundary:    indicates whether the matched token can be at the end of the text (default true)
+
+````xml
+<tokens>
+    <token pattern="p.p" replacement="pro person" />
+    <token pattern="(ca)." regex="true" />
+    <token pattern="([0-9]+\.[0-9]+)(\-)([0-9]+\.[0-9]+)" regex="true" />
+    <token pattern="[0-9]+\.[0-9]+,\-" regex="true" />
+    <token pattern="[0-9]+,\-" regex="true" />
+    <token pattern="([0-9]+\.[0-9]+)(€)" regex="true" />
+    <token pattern="[0-9]+\.[0-9]+" regex="true" />
+    <token pattern="früh." boundary="false" />
+    <token pattern="spät." boundary="false" />
+</tokens>
+````
+
+## Labels
+Labels can be used to apply a label tag on a static character sequence. This labels can be used within the
+explicit query language by using the hashtag prefix e.g. #labelName
+
+So a input text "ten euro" matches the EQL "ten #currency".
+
+````xml
+<labels>
+    <currency>euro</currency>
+    <currency>€</currency>
+    <currency>eur</currency>
+    <currency>dollar</currency>
+    <currency>$</currency>
+</labels>
+````
+
+#Mappings
+Mappings can be used to convert an input character sequence to an other character sequence. This can be used
+in combination with the alias EQL token. For example the alias in the EQL pattern "ten #currency:currency" stores 
+the matching character sequence at default. This character sequence can be converted by a mapping configuration.
+
+````xml
+<mappings>
+    <mapping inbound="€" outbound="euro" />
+    <mapping inbound="eur" outbound="euro" />
+    <mapping inbound="$" outbound="dollar" />
+</mappings>
+````
+
+## Features
+Features defines static entities which can be used in the entity resolution expression.
+
+For example: first($currency, $defaultCurrency)
+
+````xml
+<features>
+    <defaultCurrency>euro</defaultCurrency>
+</features>
+````
+
+## Patterns
+Patterns can be used to define global regex values. This regex values can be resolved by using Slot tokens.
+
+````xml
+<patterns>
+    <dateDMY>[0-9]{1,2}[\.\\/\-][0-9]{1,2}[\.\\/\-] ?[0-9]{2,4}[\.\\/\-]?</dateDMY>
+    <dateYDM>[0-9]{2,4}[\.\\/\-][0-9]{1,2}[\.\\/\-] ?[0-9]{1,2}[\.\\/\-]?</dateYDM>
+    <dateDM>[0-9]{1,2}[\.\\/\-][0-9]{1,2}[\.\\/\-]?</dateDM>
+    <year>[0-9]{4}</year>
+    <dateNumber2>[0-9]{1,2}</dateNumber2>
+    <dateNumber4>[0-9]{4}</dateNumber4>
+</patterns>
+````
 
 ## Explicit Query Language (EQL)
 EQL is an expression language which is used to describe patterns in a natural text. So the EQL defines token types 
@@ -140,116 +267,4 @@ lastDayOfMonth(m) // returns the last day of the given month m
 getYear(d) // returns the year value of the date value d
 curMonth() // returns the current month value of the system date
 substringAfter(s, i) // returns the substring of s beginning at index i 
-````
-
-# Explicit Configuration File
-For the use of named entity recognition, a configuration file is used to define the explicit rules.
-The library has a canonical data format where configuration from different file formats can be transferred to.
-At the moment only the xml file format is supported.
-
-An explicit configuration file starts with an <explicit /> tag which contains the name of the NER entity class.
-
-````xml
-<explicit name="price" />
-````
-
-## Rule
-Explicit configuration files can contain multiple exlicit rules.
-Each rule defines an EQL expression in combination with a group of ERL expressions.
-If the EQL expression matches the input text each ERL expression is resolved to a variable value
-which is stored in the result value.
-
-For example the following rule matches input texts like "100 euro" or "20 €" and stores the variables
-amount as well as currency in the result object.
-
-````xml
-<rule>
-    <gql>{number}:amount #currency</gql>
-    <ner>
-        <amount>toNumber($amount)</amount>
-        <currency>first($currency, $defaultCurrency)</currency>
-    </ner>
-</rule>
-````
-
-## tokens
-
-The tokenizer splits the text at every whitespace, special character and char type switch.
-For example the text "abc 123 abc§$%" is tokenized to [abc, 123, abc, §, $, %].
-This behaviour can be extended by configuring custom tokens. A token can be a static character sequence
-or a regex. Tokens can automatically be replaced with a "replacement" character sequence. Also tokens
-can be defined as a boundary token which means that the token is allowed to be at the end of the text.
-
-**Token attributes:**
-pattern:     the token pattern
-replacement: the character sequence which replaces the matched token
-regex:       indicates whether the pattern is a regex (default false)
-boundary:    indicates whether the matched token can be at the end of the text (default true)
-
-````xml
-<tokens>
-    <token pattern="p.p" replacement="pro person" />
-    <token pattern="(ca)." regex="true" />
-    <token pattern="([0-9]+\.[0-9]+)(\-)([0-9]+\.[0-9]+)" regex="true" />
-    <token pattern="[0-9]+\.[0-9]+,\-" regex="true" />
-    <token pattern="[0-9]+,\-" regex="true" />
-    <token pattern="([0-9]+\.[0-9]+)(€)" regex="true" />
-    <token pattern="[0-9]+\.[0-9]+" regex="true" />
-    <token pattern="früh." boundary="false" />
-    <token pattern="spät." boundary="false" />
-</tokens>
-````
-
-## Labels
-Labels can be used to apply a label tag on a static character sequence. This labels can be used within the
-explicit query language by using the hashtag prefix e.g. #labelName
-
-So a input text "ten euro" matches the EQL "ten #currency".
-
-````xml
-<labels>
-    <currency>euro</currency>
-    <currency>€</currency>
-    <currency>eur</currency>
-    <currency>dollar</currency>
-    <currency>$</currency>
-</labels>
-````
-
-#Mappings
-Mappings can be used to convert an input character sequence to an other character sequence. This can be used
-in combination with the alias EQL token. For example the alias in the EQL pattern "ten #currency:currency" stores 
-the matching character sequence at default. This character sequence can be converted by a mapping configuration.
-
-````xml
-<mappings>
-    <mapping inbound="€" outbound="euro" />
-    <mapping inbound="eur" outbound="euro" />
-    <mapping inbound="$" outbound="dollar" />
-</mappings>
-````
-
-## Features
-Features defines static entities which can be used in the entity resolution expression.
-
-For example: first($currency, $defaultCurrency)
-
-````xml
-<features>
-    <defaultCurrency>euro</defaultCurrency>
-</features>
-````
-
-## Patterns
-Patterns can be used to define global regex values. This regex values can be resolved by using Slot tokens.
-
-````xml
-<patterns>
-    <dateDMY>[0-9]{1,2}[\.\\/\-][0-9]{1,2}[\.\\/\-] ?[0-9]{2,4}[\.\\/\-]?</dateDMY>
-    <dateYDM>[0-9]{2,4}[\.\\/\-][0-9]{1,2}[\.\\/\-] ?[0-9]{1,2}[\.\\/\-]?</dateYDM>
-    <dateDM>[0-9]{1,2}[\.\\/\-][0-9]{1,2}[\.\\/\-]?</dateDM>
-    <year>[0-9]{4}</year>
-    <dateNumber2>[0-9]{1,2}</dateNumber2>
-    <dateNumber4>[0-9]{4}</dateNumber4>
-</patterns>
 ````

@@ -2,7 +2,7 @@ import datetime
 import unittest
 
 from explicit.ExplicitEngine import ExplicitEngine
-from explicit.parser.xml.XmlExplicitRulesParser import XmlExplicitRulesParser
+from explicit.parser.xml.ExplicitXmlParser import ExplicitXmlParser
 
 
 class DEDateTimeTest(unittest.TestCase):
@@ -10,8 +10,8 @@ class DEDateTimeTest(unittest.TestCase):
     def test(self):
         # logging.basicConfig(level = logging.DEBUG)
 
-        rulez = XmlExplicitRulesParser().parse("../../src/main/resources/de/datetime.xml")
-        engine = ExplicitEngine(rulez)
+        rules = ExplicitXmlParser().parse("../../src/main/resources/de/datetime.xml")
+        engine = ExplicitEngine(rules)
 
         result = engine.execute("vom 1 April bis zum 10 April 2018")
         self.assertEqual(result, [{"date1": datetime.datetime(2018, 4, 1), "date2": datetime.datetime(2018, 4, 10)}])

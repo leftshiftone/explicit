@@ -1,6 +1,6 @@
 import unittest
 
-from explicit.parser.xml.XmlExplicitRulesParser import XmlExplicitRulesParser
+from explicit.parser.xml.ExplicitXmlParser import ExplicitXmlParser
 from explicit.token.tokenizer import CharacterCaseTokenizer
 
 
@@ -12,7 +12,7 @@ class CharacterCaseTokenizerTest(unittest.TestCase):
         self.assertEqual(["a", "früh", ".", "b", "spät", ".", "c"], CharacterCaseTokenizer.tokenize("a früh. b spät. c"))
 
     def test_tokenization_with_price_tokens(self):
-        rulez = XmlExplicitRulesParser().parse("../../../../../src/main/resources/de/price.xml")
+        rulez = ExplicitXmlParser().parse("../../../../../src/main/resources/de/price.xml")
         self.assertEqual(["bis", "1.000,-", "euro"], CharacterCaseTokenizer.tokenize("bis 1.000,- euro", rulez.tokens))
         self.assertEqual(["das", "hotel", "ca", "1.200", "€", "kostet"], CharacterCaseTokenizer.tokenize("das Hotel ca. 1.200€ kostet", rulez.tokens))
         self.assertEqual(["1.500", "-", "1.800", "€", "."], CharacterCaseTokenizer.tokenize("1.500-1.800 €.", rulez.tokens))
@@ -20,7 +20,7 @@ class CharacterCaseTokenizerTest(unittest.TestCase):
         self.assertEqual(["500", "-", "600", "€", "."], CharacterCaseTokenizer.tokenize("500-600€.", rulez.tokens))
 
     def test_tokenization_with_datetime_tokens(self):
-        rulez = XmlExplicitRulesParser().parse("../../../../../src/main/resources/de/datetime.xml")
+        rulez = ExplicitXmlParser().parse("../../../../../src/main/resources/de/datetime.xml")
         self.assertEqual(["06.08.2017.", "bis", "12.08.2017."], CharacterCaseTokenizer.tokenize("06.08.2017. bis12.08.2017.", rulez.tokens))
         self.assertEqual(["ab", "29.7.17"], CharacterCaseTokenizer.tokenize("ab 29.7.17", rulez.tokens))
         self.assertEqual(["08/08/2015", "-", "15/08/2015", "."], CharacterCaseTokenizer.tokenize("08/08/2015 - 15/08/2015.", rulez.tokens))

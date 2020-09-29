@@ -8,7 +8,7 @@ from explicit.parser.AntlrParser import AntlrParser
 from explicit.parser.ExplicitRules import ExplicitRules, Token
 
 
-class XmlExplicitRulesParser:
+class ExplicitXmlParser:
     def parse(self, file_path: str) -> ExplicitRules:
         xdom = minidom.parse(file_path)
         root = xdom.childNodes[0]
