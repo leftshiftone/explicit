@@ -116,21 +116,23 @@ test {
     useJUnitPlatform()
 }
 
-sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")
 generateGrammarSource {
     outputDirectory = new File(project.rootDir, "explicit-java/build/generated-src/antlr/explicit/antlr")
     arguments += ["-visitor", "-package", "explicit.antlr"]
 }
 compileKotlin.dependsOn generateGrammarSource
 
-task generateSource(type: Test) {
-    useJUnitPlatform()
-    filter {
-        includeTestsMatching "gaia.sdk.codegen.KotlinCodegenTest"
-    }
-}
-generateSource.dependsOn generateGrammarSource
-
+//todo: configure it correctly with generategrammarsource task type
+//task generateGrammarSourcePython() {
+//    project.generateGrammarSource {
+//        outputDirectory = new File(project.rootDir, "explicit-python/antlr")
+//        arguments += ["-visitor", "-Dlanguage=Python3"]
+//        doLast {
+//            File file = new File(project.rootDir, "explicit-python/explicit_nlu/antlr/__init__.py")
+//            file.write ""
+//        }
+//    }.execute()
+//}
 
 subprojects {
     apply plugin: "one.leftshift.asteria-code-analytics"

@@ -8,7 +8,7 @@ class ExplicitEngineTest {
 
     @Test
     fun `simple string extractor`() {
-        val stream = ExplicitXmlParser::class.java.getResourceAsStream("/extractors.xml")
+        val stream = this::class.java.getResourceAsStream("/extractors.xml")
         val rulez = ExplicitXmlParser().parse(stream)
 
         val engine = ExplicitEngine(rulez)

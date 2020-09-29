@@ -45,7 +45,7 @@ task javadocJar(type: Jar) {
     classifier "javadoc"
 }
 asteriaPublish {
-    enableBranchSnapshotRepositories = true
+    enableBranchSnapshotRepositories = false
 }
 publishing {
     publications {
@@ -56,14 +56,14 @@ publishing {
             artifact javadocJar
             pom.withXml {
                 Node root = asNode()
-                root.appendNode("name", "GAIA SDK")
-                root.appendNode("description", "GAIA SDK is an open source software library in order to interact with the GAIA API.")
-                root.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+                root.appendNode("name", "Explicit")
+                root.appendNode("description", "Explicit is a cross platform library for rule based named entity recognition.")
+                root.appendNode("url", "https://github.com/leftshiftone/explicit")
 
                 Node licenses = root.appendNode("licenses")
                 Node license = licenses.appendNode("license")
                 license.appendNode("name", "MIT")
-                license.appendNode("url", "https://github.com/leftshiftone/gaia-sdk/blob/master/LICENSE")
+                license.appendNode("url", "https://github.com/leftshiftone/explicit/blob/master/LICENSE")
 
                 Node developers = root.appendNode("developers")
                 Node developer = developers.appendNode("developer")
@@ -74,9 +74,9 @@ publishing {
                 developer.appendNode("organizationUrl", "https://www.leftshift.one")
 
                 Node scm = root.appendNode("scm")
-                scm.appendNode("connection", "scm:git:git://github.com/leftshiftone/gaia-sdk.git")
-                scm.appendNode("developerConnection", "scm:git:ssh://github.com:leftshiftone/gaia-sdk.git")
-                scm.appendNode("url", "https://github.com/leftshiftone/gaia-sdk")
+                scm.appendNode("connection", "scm:git:git://github.com/leftshiftone/explicit.git")
+                scm.appendNode("developerConnection", "scm:git:ssh://github.com:leftshiftone/explicit.git")
+                scm.appendNode("url", "https://github.com/leftshiftone/explicit")
             }
         }
     }
@@ -89,11 +89,11 @@ bintray {
     publish = true
     override = true
     pkg {
-        repo = "gaia-sdk"
+        repo = "explicit"
         name = "${project.group}.${project.name}"
         userOrg = "leftshiftone"
         licenses = ["MIT"]
-        vcsUrl = "https://github.com/leftshiftone/gaia-sdk.git"
+        vcsUrl = "https://github.com/leftshiftone/explicit.git"
         publications = ["mavenJava"]
     }
 }

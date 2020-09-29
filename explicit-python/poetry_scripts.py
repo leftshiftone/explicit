@@ -8,7 +8,7 @@ POETRY_PROJECT_FILE = "pyproject.toml"
 def clean():
     shutil.rmtree("dist", ignore_errors=True)
     shutil.rmtree("build", ignore_errors=True)
-    shutil.rmtree("gaia_sdk.egg-info", ignore_errors=True)
+    shutil.rmtree("explicit_nlu.egg-info", ignore_errors=True)
     shutil.rmtree(".pytest_cache", ignore_errors=True)
 
 
@@ -17,7 +17,7 @@ def install():
 
 
 def test():
-    _execute(["poetry", "run", "pytest", "--junit-xml=build/test/TEST-junit.xml", "--cov=gaia_sdk",
+    _execute(["poetry", "run", "pytest", "--junit-xml=build/test/TEST-junit.xml", "--cov=explicit_nlu",
               "--cov-report=xml:build/coverage/coverage.xml", "--cov-report=term", "-s"])
 
 
