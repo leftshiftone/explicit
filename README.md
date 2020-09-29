@@ -1,6 +1,6 @@
 # explicit
 
-Explicit is a cross platform library for rule based intent detection and named entity recognition.
+Explicit is a cross platform library for rule based named entity recognition.
 Although machine learning is the often preferred way to solve this kind of tasks
 a rule based approach can lead for specific tasks to faster and more accurate results.
 

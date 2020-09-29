@@ -28,10 +28,11 @@ import explicit.token.tokenizer.CharacterCaseTokenizer
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
 
-    fun evaluate(text: String, excludes: Set<List<Int>>): ExplicitRuleEvaluation {
+    fun evaluate(text: String, excludes: Set<List<Int>> = HashSet()): ExplicitRuleEvaluation {
         if (rule.rule.all { e -> e is Wildcard })
             return ExplicitRuleEvaluation(true, HashMap(), ArrayList(HashSet()))
 

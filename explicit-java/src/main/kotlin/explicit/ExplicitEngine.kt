@@ -24,7 +24,7 @@ import explicit.parser.ExplicitRules
 
 class ExplicitEngine(private val rulez: ExplicitRules) {
 
-    fun execute(text: String, arguments: Map<String, Any> = mapOf()): List<Map<String, Any>> {
+    fun execute(text: String): List<Map<String, Any>> {
         val result = ArrayList<Map<String, Any>>()
         val navigator = Navigator(rulez.toList())
 

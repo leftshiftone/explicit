@@ -12,7 +12,7 @@ from explicit.parser.AntlrParser import AntlrParser
 class ExplicitEngine:
     rules: ExplicitRules
 
-    def execute(self, text: str, arguments: Dict[str, Any] = {}) -> List[Dict[str, Any]]:
+    def execute(self, text: str) -> List[Dict[str, Any]]:
         result:List[Dict[str, Any]] = []
         navigator = Navigator(self.rules.rulez)
 
