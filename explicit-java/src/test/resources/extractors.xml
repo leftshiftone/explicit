@@ -1,34 +1,34 @@
 <accommodation>
     <unit>
-        <gql>simple string extractor</gql>
+        <eql>simple string extractor</eql>
         <ner>
             <one>"A"</one>
             <two>"B"</two>
         </ner>
     </unit>
     <unit>
-        <gql>simple number extractor</gql>
+        <eql>simple number extractor</eql>
         <ner>
             <one>1</one>
             <two>2</two>
         </ner>
     </unit>
     <unit>
-        <gql>simple boolean extractor</gql>
+        <eql>simple boolean extractor</eql>
         <ner>
             <one>true</one>
             <two>false</two>
         </ner>
     </unit>
     <unit>
-        <gql>simple variable:x extractor:y</gql>
+        <eql>simple variable:x extractor:y</eql>
         <ner>
             <one>$x</one>
             <two>$y</two>
         </ner>
     </unit>
     <unit>
-        <gql>simple function:x extractor:y</gql>
+        <eql>simple function:x extractor:y</eql>
         <ner>
             <one>uppercase($x)</one>
             <two>uppercase($y)</two>

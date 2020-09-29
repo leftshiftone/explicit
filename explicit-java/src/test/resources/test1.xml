@@ -1,6 +1,6 @@
 <rulez name="bool">
     <rule>
-        <gql>A</gql>
+        <eql>A</eql>
         <ner>
             <a>true</a>
             <b>false</b>
@@ -8,7 +8,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>B</gql>
+        <eql>B</eql>
         <ner>
             <a>false</a>
             <b>true</b>
@@ -16,7 +16,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>C</gql>
+        <eql>C</eql>
         <ner>
             <a>false</a>
             <b>false</b>
