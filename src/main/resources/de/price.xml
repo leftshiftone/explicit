@@ -1,4 +1,4 @@
-<price>
+<explicit name="price">
     <labels>
         <currency>euro</currency>
         <currency>€</currency>
@@ -24,7 +24,7 @@
         <token pattern="[0-9]+\.[0-9]+" regex="true" />
     </tokens>
     <rule>
-        <gql>* für {number} personen nicht mehr als {number}:amount #currency:currency</gql>
+        <eql>* für {number} personen nicht mehr als {number}:amount #currency:currency</eql>
         <ner>
             <amount>toNumber($amount)</amount>
             <currency>first($currency, $defaultCurrency)</currency>
@@ -33,7 +33,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* (pro person)?:perPerson nicht mehr als {number}:amount #currency:currency (pro person)?:perPerson</gql>
+        <eql>* (pro person)?:perPerson nicht mehr als {number}:amount #currency:currency (pro person)?:perPerson</eql>
         <ner>
             <amount>toNumber($amount)</amount>
             <currency>first($currency, $defaultCurrency)</currency>
@@ -42,7 +42,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* (pro person)?:perPerson {number}:amount1 #currency? [/ bis -] {number}:amount2 #currency:currency (pro person)?:perPerson *</gql>
+        <eql>* (pro person)?:perPerson {number}:amount1 #currency? [/ bis -] {number}:amount2 #currency:currency (pro person)?:perPerson *</eql>
         <ner>
             <amountMin>toNumber($amount1)</amountMin>
             <amountMax>toNumber($amount2)</amountMax>
@@ -51,7 +51,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* (pro person)?:perPerson bis {number}:amount ,? -? #currency:currency (pro person)?:perPerson *</gql>
+        <eql>* (pro person)?:perPerson bis {number}:amount ,? -? #currency:currency (pro person)?:perPerson *</eql>
         <ner>
             <amount>toNumber($amount)</amount>
             <currency>$currency</currency>
@@ -59,7 +59,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* {number}:amount #currency?:currency pro [person p] *</gql>
+        <eql>* {number}:amount #currency?:currency pro [person p] *</eql>
         <ner>
             <amount>toNumber($amount)</amount>
             <currency>first($currency, $defaultCurrency)</currency>
@@ -67,7 +67,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* {number}:amount #currency:currency (pro kopf) *</gql>
+        <eql>* {number}:amount #currency:currency (pro kopf) *</eql>
         <ner>
             <amount>toNumber($amount)</amount>
             <currency>$currency</currency>
@@ -75,7 +75,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* (pro kopf) {number}:amount #currency:currency *</gql>
+        <eql>* (pro kopf) {number}:amount #currency:currency *</eql>
         <ner>
             <amount>toNumber($amount)</amount>
             <currency>$currency</currency>
@@ -83,7 +83,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* !nicht !über {number}:amount #currency:currency *</gql>
+        <eql>* !nicht !über {number}:amount #currency:currency *</eql>
         <ner>
             <amount>toNumber($amount)</amount>
             <currency>$currency</currency>
@@ -91,7 +91,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* ~günstig *</gql>
+        <eql>* ~günstig *</eql>
         <ner>
             <priceCategory>"cheap"</priceCategory>
             <sensibility>"high"</sensibility>
@@ -99,7 +99,7 @@
         </ner>
     </rule>
     <rule>
-        <gql>* (pro person)?:perPerson nicht über {number}:amount #currency:currency (pro person)?:perPerson</gql>
+        <eql>* (pro person)?:perPerson nicht über {number}:amount #currency:currency (pro person)?:perPerson</eql>
         <ner>
             <amount>toNumber($amount)</amount>
             <currency>first($currency, $defaultCurrency)</currency>
@@ -107,4 +107,4 @@
             <scope>ternary(isPresent("perPerson"), "person", "total")</scope>
         </ner>
     </rule>
-</price>
+</explicit>

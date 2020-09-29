@@ -39,7 +39,7 @@ class ExplicitXmlParser {
     }
 
     fun parseRule(node: Node): ExplicitRule {
-        val gql = node.findText("gql")
+        val eql = node.findText("eql")
         val ner = ArrayList<Map<String, String>>()
 
         // explicit entities
@@ -77,7 +77,7 @@ class ExplicitXmlParser {
                 })
 
         val idx = getIdx(node)
-        return ExplicitRule(AntlrParser().getTokens(gql), ner, idx)
+        return ExplicitRule(AntlrParser().getTokens(eql), ner, idx)
     }
 
     private fun parseRules(list: NodeList): List<ExplicitRule> {

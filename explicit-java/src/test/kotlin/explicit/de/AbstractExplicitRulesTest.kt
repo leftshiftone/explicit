@@ -4,10 +4,12 @@ import explicit.ExplicitEngine
 import explicit.parser.xml.ExplicitXmlParser
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DynamicTest
+import java.io.FileInputStream
 
-abstract class AbstractExplitirRulesTest(val name:String) {
+abstract class AbstractExplicitRulesTest(name:String) {
 
-    private val engine = ExplicitEngine(ExplicitXmlParser().parse(AbstractExplitirRulesTest::class.java.getResourceAsStream(name)))
+    private val engine = ExplicitEngine(ExplicitXmlParser()
+            .parse(FileInputStream(System.getProperty("user.dir") + "/../src/main/resources/$name.xml")))
 
     protected fun register(vararg pairs:Pair<String, List<Map<String, Any>>>):List<DynamicTest> {
         return pairs.map { pair ->

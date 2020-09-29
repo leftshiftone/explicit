@@ -31,20 +31,21 @@ An explicit configuration file starts with an <explicit /> tag which contains th
 ````
 
 ## Rules
-Explicit configuration files can contain multiple exlicit rules.
-Each rule defines an EQL expression in combination with a group of ERL expressions.
-If the EQL expression matches the input text each ERL expression is resolved to a variable value
-which is stored in the result value.
+Explicit configuration files can contain multiple explicit rules.
+Each rule defines an EQL (explicit query language) expression in combination with a group of ECL
+(explicit conversion language) expressions.
+If the EQL expression matches the input text, each ERL expression is resolved to a variable value
+which is stored and returned as a result value.
 
-For example the following rule matches input texts like "100 euro" or "20 €" and stores the variables
+For example the following rule matches input texts like **"100 euro"** or **"20 €"** and stores the variables
 amount as well as currency in the result object.
 
 ````xml
 <rule>
-    <gql>{number}:amount #currency</gql>
+    <eql>{number}:amount #currency</eql>
     <ner>
         <amount>toNumber($amount)</amount>
-        <currency>first($currency, $defaultCurrency)</currency>
+        <currency>first($currency, "euro")</currency>
     </ner>
 </rule>
 ````
@@ -52,7 +53,7 @@ amount as well as currency in the result object.
 ## Tokens
 
 The tokenizer splits the text at every whitespace, special character and char type switch.
-For example the text "abc 123 abc§$%" is tokenized to [abc, 123, abc, §, $, %].
+For example the text **"abc 123 abc§$%"** is tokenized to **[abc, 123, abc, §, $, %]**.
 This behaviour can be extended by configuring custom tokens. A token can be a static character sequence
 or a regex. Tokens can automatically be replaced with a "replacement" character sequence. Also tokens
 can be defined as a boundary token which means that the token is allowed to be at the end of the text.
@@ -66,12 +67,7 @@ boundary:    indicates whether the matched token can be at the end of the text (
 ````xml
 <tokens>
     <token pattern="p.p" replacement="pro person" />
-    <token pattern="(ca)." regex="true" />
-    <token pattern="([0-9]+\.[0-9]+)(\-)([0-9]+\.[0-9]+)" regex="true" />
     <token pattern="[0-9]+\.[0-9]+,\-" regex="true" />
-    <token pattern="[0-9]+,\-" regex="true" />
-    <token pattern="([0-9]+\.[0-9]+)(€)" regex="true" />
-    <token pattern="[0-9]+\.[0-9]+" regex="true" />
     <token pattern="früh." boundary="false" />
     <token pattern="spät." boundary="false" />
 </tokens>
@@ -81,7 +77,7 @@ boundary:    indicates whether the matched token can be at the end of the text (
 Labels can be used to apply a label tag on a static character sequence. This labels can be used within the
 explicit query language by using the hashtag prefix e.g. #labelName
 
-So a input text "ten euro" matches the EQL "ten #currency".
+So a input text **"ten euro"** matches the EQL expression **"ten #currency"**.
 
 ````xml
 <labels>
@@ -94,8 +90,8 @@ So a input text "ten euro" matches the EQL "ten #currency".
 ````
 
 #Mappings
-Mappings can be used to convert an input character sequence to an other character sequence. This can be used
-in combination with the alias EQL token. For example the alias in the EQL pattern "ten #currency:currency" stores 
+Mappings can be used to convert an input character sequence to another character sequence. This can be used
+in combination with the alias EQL token. For example the alias in the EQL pattern **"ten #currency:currency"** stores 
 the matching character sequence at default. This character sequence can be converted by a mapping configuration.
 
 ````xml
@@ -107,7 +103,7 @@ the matching character sequence at default. This character sequence can be conve
 ````
 
 ## Features
-Features defines static entities which can be used in the entity resolution expression.
+Features defines static entities which can be used in an ECL expression.
 
 For example: first($currency, $defaultCurrency)
 
@@ -138,7 +134,7 @@ is composed of different tokens types.
  
 ### Alias
 The alias token can be used to give a certain part of a text an alias name. This name can be used as a reference
-to the part when using it in the explicit conversion language. An alias token matches with a text token when the
+to the part when using it in an ECL expression. An alias token matches with a text token when the
 token before the colon equals the text input.
  
  ````
@@ -235,15 +231,15 @@ A wildcard can be used to skip tokens in the input character sequence until anot
 
 # Explicit Conversion Language (ECL)
 The explicit conversion language is used to convert an input text which matches an EQL expression to ner entities.
-Within an ECL expression matched EQL alias tokens can be referenced with an leading Dollar symbol before the name
+Within an ECL expression matched EQL alias tokens can be referenced with a leading Dollar symbol before the name
 e.g. $aliasName
 
-Example:
+**Example:**
 input -> 100 euro
-eql   -> {number}:amount euro
-ecl   -> $amount
+EQL   -> {number}:amount euro
+ECL   -> $amount
 
-The ecl expression returns 100
+The ECL expression returns 100
 
 ## ECL Build-in-functions
 Within ECL expressions build-in-functions can be used.

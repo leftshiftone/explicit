@@ -2,7 +2,7 @@ package explicit.de
 
 import org.junit.jupiter.api.TestFactory
 
-class PriceTest : AbstractExplitirRulesTest("/de/price.xml") {
+class PriceTest : AbstractExplicitRulesTest("de/price") {
 
     @TestFactory
     fun test() = register(

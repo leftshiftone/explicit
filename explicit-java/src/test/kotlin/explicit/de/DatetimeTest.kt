@@ -3,7 +3,7 @@ package explicit.de
 import org.junit.jupiter.api.TestFactory
 import java.time.LocalDateTime
 
-class DatetimeTest : AbstractExplitirRulesTest("/de/datetime.xml") {
+class DatetimeTest : AbstractExplicitRulesTest("de/datetime") {
 
     @TestFactory
     fun test() = register(

@@ -1,4 +1,4 @@
-<datetime>
+<explicit name="datetime">
     <mappings>
         <mapping inbound="ein" outbound="1" />
         <mapping inbound="eine" outbound="1" />
@@ -77,35 +77,35 @@
         <dateNumber4>[0-9]{4}</dateNumber4>
     </patterns>
     <rule>
-        <gql>* {dateDM}:date1 / {dateDM} - {dateDM}:date2 {dateNumber4}?:year *</gql>
+        <eql>* {dateDM}:date1 / {dateDM} - {dateDM}:date2 {dateNumber4}?:year *</eql>
         <ner>
             <date1>toDate($date1, "DM", first($year, $curYear))</date1>
             <date2>toDate($date2, "DM", first($year, $curYear))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* vom {dateDM}:date1 bis zum {dateDMY}:date2 *</gql>
+        <eql>* vom {dateDM}:date1 bis zum {dateDMY}:date2 *</eql>
         <ner>
             <date2>toDate($date2, "DMY")</date2>
             <date1>toDate($date1, "DM", getYear(toDate($date2, "DMY")))</date1>
         </ner>
     </rule>
     <rule>
-        <gql>* vom {dateDM}:date1 bis zum {dateDM}:date2 {dateNumber4}?:year *</gql>
+        <eql>* vom {dateDM}:date1 bis zum {dateDM}:date2 {dateNumber4}?:year *</eql>
         <ner>
             <date1>toDate($date1, "DM", first($year, $curYear))</date1>
             <date2>toDate($date2, "DM", first($year, $curYear))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* vom {dateNumber2}:day1 #month?:month1 {dateNumber4}?:year1 bis zum {dateNumber2}:day2 #month?:month2 {dateNumber4}?:year2 *</gql>
+        <eql>* vom {dateNumber2}:day1 #month?:month1 {dateNumber4}?:year1 bis zum {dateNumber2}:day2 #month?:month2 {dateNumber4}?:year2 *</eql>
         <ner>
             <date1>date($day1, first($month1, $month2, $curMonth), first($year1, $year2, $curYear))</date1>
             <date2>date($day2, first($month2, $month1, $curMonth), first($year2, $curYear))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* zeitraum #month:month1 [- bis] #month:month2 {dateNumber4}?:year *</gql>
+        <eql>* zeitraum #month:month1 [- bis] #month:month2 {dateNumber4}?:year *</eql>
         <ner>
             <date1>date(1, $month1, first($year, $curYear))</date1>
             <date2>date(lastDayOfMonth($month2, first($year, $curYear)), $month2, first($year, $curYear))</date2>
@@ -113,49 +113,49 @@
         </ner>
     </rule>
     <rule>
-        <gql>* ab dem? {dateNumber2}:day #month:month {dateNumber4}?:year {number}:amount woche *</gql>
+        <eql>* ab dem? {dateNumber2}:day #month:month {dateNumber4}?:year {number}:amount woche *</eql>
         <ner>
             <date1>date($day, $month, first($year, $curYear))</date1>
             <date2>addWeeks(date($day, $month, first($year, $curYear)), $amount)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateDMY}:date1 [bis -] {dateDMY}:date2 * </gql>
+        <eql>* {dateDMY}:date1 [bis -] {dateDMY}:date2 * </eql>
         <ner>
             <date1>toDate($date1, "DMY")</date1>
             <date2>toDate($date2, "DMY")</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateDMY}:date1 [bis - und] {dateDM}:date2 {dateNumber4}:year * </gql>
+        <eql>* {dateDMY}:date1 [bis - und] {dateDM}:date2 {dateNumber4}:year * </eql>
         <ner>
             <date1>toDate($date1, "DMY")</date1>
             <date2>toDate($date2, "DM", $year)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateDM}:date1 -? bis? zum? {dateDMY}:date2 * </gql>
+        <eql>* {dateDM}:date1 -? bis? zum? {dateDMY}:date2 * </eql>
         <ner>
             <date2>toDate($date2, "DMY")</date2>
             <date1>toDate($date1, "DM", getYear(toDate($date2, "DMY")))</date1>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateDM}:date1 [bis - und] `[0-9]{1,2}/[0-9]{1,2}\.[0-9]{1,2}` {dateNumber4}?:year * </gql>
+        <eql>* {dateDM}:date1 [bis - und] `[0-9]{1,2}/[0-9]{1,2}\.[0-9]{1,2}` {dateNumber4}?:year * </eql>
         <ner>
             <date1>toDate($date1, "DM", first($year, $curYear))</date1>
             <date2>toDate(substringAfter($group, "/"), "DM", first($year, $curYear))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateDM}:date1 [bis - und] {dateDM}:date2 {dateNumber4}?:year * </gql>
+        <eql>* {dateDM}:date1 [bis - und] {dateDM}:date2 {dateNumber4}?:year * </eql>
         <ner>
             <date1>toDate($date1, "DM", first($year, $curYear))</date1>
             <date2>toDate($date2, "DM", first($year, $curYear))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* zeitraum ende #month:month1 [bis - /] anfang #month:month2 {dateNumber4}?:year *</gql>
+        <eql>* zeitraum ende #month:month1 [bis - /] anfang #month:month2 {dateNumber4}?:year *</eql>
         <ner>
             <date1>date(sub(lastDayOfMonth($month2, $curYear), 5), $month1, first($year, $curYear))</date1>
             <date2>date(5, $month2, first($year, $curYear))</date2>
@@ -163,35 +163,35 @@
         </ner>
     </rule>
     <rule>
-        <gql>* ende #month:month1 {dateNumber4}?:year1 bis mitte #month:month2 {dateNumber4}:year2 *</gql>
+        <eql>* ende #month:month1 {dateNumber4}?:year1 bis mitte #month:month2 {dateNumber4}:year2 *</eql>
         <ner>
             <date1>date(lastDayOfMonth($month1, first($year1, $year2, $curYear)), $month1, first($year1, $year2, $curYear))</date1>
             <date2>date(div(lastDayOfMonth($month2, first($year2, $curYear)), 2), $month2, first($year2, $curYear))</date2>
         </ner>
     </rule> *
     <rule>
-        <gql>* ab {dateDMY}:date * für {dateNumber2}:amount [woche wochen] *</gql>
+        <eql>* ab {dateDMY}:date * für {dateNumber2}:amount [woche wochen] *</eql>
         <ner>
             <date1>toDate($date, "DMY")</date1>
             <date2>addWeeks(toDate($date, "DMY"), $amount)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* [am ab vom] {dateDM}:date {dateNumber4}?:year * für? {dateNumber2}:amount [woche wochen] *</gql>
+        <eql>* [am ab vom] {dateDM}:date {dateNumber4}?:year * für? {dateNumber2}:amount [woche wochen] *</eql>
         <ner>
             <date1>toDate($date, "DM", first($year, $curYear))</date1>
             <date2>addWeeks(toDate($date, "DM", first($year, $curYear)), $amount)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* ~möchten ende #month:month {dateNumber4}?:year * {dateNumber2}:amount woche *</gql>
+        <eql>* ~möchten ende #month:month {dateNumber4}?:year * {dateNumber2}:amount woche *</eql>
         <ner>
             <date1>date(lastDayOfMonth($month, $curYear), $month, first($year, $curYear))</date1>
             <date2>addWeeks(date(lastDayOfMonth($month, $curYear), $month, first($year, $curYear)), $amount)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* [~frühestens früh früh.] am? {dateNumber2}:day1 #month:month1 {dateNumber4}?:year1 bis [~spätestens spät spät.] am? {dateNumber2}:day2 #month:month2 {dateNumber4}?:year2 *</gql>
+        <eql>* [~frühestens früh früh.] am? {dateNumber2}:day1 #month:month1 {dateNumber4}?:year1 bis [~spätestens spät spät.] am? {dateNumber2}:day2 #month:month2 {dateNumber4}?:year2 *</eql>
         <ner>
             <date1>date($day1, $month1, first($year1, $year2, $curYear))</date1>
             <date2>date($day2, $month2, first($year2, $curYear))</date2>
@@ -199,14 +199,14 @@
         </ner>
     </rule>
     <rule>
-        <gql>* ende #month:month {dateNumber4}?:year *</gql>
+        <eql>* ende #month:month {dateNumber4}?:year *</eql>
         <ner>
             <date>date(lastDayOfMonth($month, first($year, $curYear)), $month, first($year, $curYear))</date>
             <fuzzy>true</fuzzy>
         </ner>
     </rule>
     <rule>
-        <gql>* weihnachtsferien {dateNumber4}?:year *</gql>
+        <eql>* weihnachtsferien {dateNumber4}?:year *</eql>
         <ner>
             <date1>date(20, 12, first($year, $curYear))</date1>
             <date2>date(10, 1, add(toNumber(first($year, $curYear)), 1))</date2>
@@ -214,48 +214,48 @@
         </ner>
     </rule>
     <rule>
-        <gql>* der {dateNumber2}:amount woche {dateNumber4}?:year *</gql>
+        <eql>* der {dateNumber2}:amount woche {dateNumber4}?:year *</eql>
         <ner>
             <date>addWeeks(date(1, 1, first($year, $curYear)), $amount)</date>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateNumber2}:day1 - {dateNumber2}:day2 #month:month {dateNumber4}?:year</gql>
+        <eql>* {dateNumber2}:day1 - {dateNumber2}:day2 #month:month {dateNumber4}?:year</eql>
         <ner>
             <date1>date($day1, $month, first($year, $curYear))</date1>
             <date2>date($day2, $month, first($year, $curYear))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* #month:month1 und #month:month2 {dateNumber4}?:year *</gql>
+        <eql>* #month:month1 und #month:month2 {dateNumber4}?:year *</eql>
         <ner>
             <date1>date(1, $month1, first($year, $curYear))</date1>
             <date2>date(lastDayOfMonth($month2, first($year, $curYear)), $month2, first($year, $curYear))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* zwischen {dateNumber2}:day1 #month?:month1 {dateNumber4}?:year1 und {dateNumber2}:day2 #month?:month2 {dateNumber4}?:year2 *</gql>
+        <eql>* zwischen {dateNumber2}:day1 #month?:month1 {dateNumber4}?:year1 und {dateNumber2}:day2 #month?:month2 {dateNumber4}?:year2 *</eql>
         <ner>
             <date1>date($day1, first($month1, $month2, curMonth()), first($year1, $year2, $curYear))</date1>
             <date2>date($day2, first($month2, $month1, curMonth()), first($year2, $curYear))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* zwischen {dateDM}:date1 {dateNumber4}?:year1 und {dateDM}:date2 {dateNumber4}?:year2 *</gql>
+        <eql>* zwischen {dateDM}:date1 {dateNumber4}?:year1 und {dateDM}:date2 {dateNumber4}?:year2 *</eql>
         <ner>
             <date1>toDate($date1, "DM", first($year1, $year2))</date1>
             <date2>toDate($date2, "DM", first($year2, $year1))</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* zwischen {dateDM}:date1 und {dateDMY}:date2 *</gql>
+        <eql>* zwischen {dateDM}:date1 und {dateDMY}:date2 *</eql>
         <ner>
             <date2>toDate($date2, "DMY")</date2>
             <date1>toDate($date1, "DM", getYear(toDate($date2, "DMY")))</date1>
         </ner>
     </rule>
     <rule>
-        <gql>* im #month:month {dateNumber4}?:year ![das] *</gql>
+        <eql>* im #month:month {dateNumber4}?:year ![das] *</eql>
         <ner>
             <date1>date(1, $month, first($year, $curYear))</date1>
             <date2>date(lastDayOfMonth($month, first($year, $curYear)), $month, first($year, $curYear))</date2>
@@ -263,66 +263,66 @@
         </ner>
     </rule>
     <rule>
-        <gql>* mitte #month:month {dateNumber4}:year *</gql>
+        <eql>* mitte #month:month {dateNumber4}:year *</eql>
         <ner>
             <date>date(15, #month, $year)</date>
         </ner>
     </rule>
     <rule>
-        <gql>* !ende #month:month {dateNumber4}:year *</gql>
+        <eql>* !ende #month:month {dateNumber4}:year *</eql>
         <ner>
             <date1>date(1, $month, $year)</date1>
             <date2>date(lastDayOfMonth($month, $year), $month, $year)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* zeitraum #month:month {dateNumber4}:year *</gql>
+        <eql>* zeitraum #month:month {dateNumber4}:year *</eql>
         <ner>
             <date1>date(1, $month, $year)</date1>
             <date2>date(lastDayOfMonth($month, $year), $month, $year)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* zeitraum #month:month *</gql>
+        <eql>* zeitraum #month:month *</eql>
         <ner>
             <date1>date(1, #month, $curYear)</date1>
             <date2>date(lastDayOfMonth($month, $curYear), $month, $curYear)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* {number}:day .? [- bis] {dateDMY}:date * </gql>
+        <eql>* {number}:day .? [- bis] {dateDMY}:date * </eql>
         <ner>
             <date2>toDate($date, "DMY")</date2>
             <date1>date(#day, $date2.month.value, $date2.year)</date1>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateDM}:date {dateNumber4}:year * </gql>
+        <eql>* {dateDM}:date {dateNumber4}:year * </eql>
         <ner>
             <date>toDate($date, "DM", $year)</date>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateDMY}:date * </gql>
+        <eql>* {dateDMY}:date * </eql>
         <ner>
             <date>toDate($date, "DMY")</date>
         </ner>
     </rule>
     <rule>
-        <gql>* {dateDM}:date * </gql>
+        <eql>* {dateDM}:date * </eql>
         <ner>
             <date>toDate($date, "DM", $curYear)</date>
         </ner>
     </rule>
     <rule>
-        <gql>* zwischen {dateNumber4}:year1 und {dateNumber4}:year2 * </gql>
+        <eql>* zwischen {dateNumber4}:year1 und {dateNumber4}:year2 * </eql>
         <ner>
             <date1>date(1, 1, $year1)</date1>
             <date2>date(1, 1, $year2)</date2>
         </ner>
     </rule>
     <rule>
-        <gql>* Mitte {number}:month * </gql>
+        <eql>* Mitte {number}:month * </eql>
         <ner>
             <date>date(15, #month, $curYear)</date>
         </ner>
@@ -332,4 +332,4 @@
         if (gt(abs(sub(date2.getYear(), date1.getYear())), 1000), () -> { set("date2", date2.withYear(date1.getYear())) })
         if (gt(date1, date2), () -> { set("date1", date1.withYear(sub(date1.getYear(), 1).intValue())) })
     </postprocessing>
-</datetime>
+</explicit>

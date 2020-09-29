@@ -26,7 +26,7 @@ class ExplicitXmlParser:
         rules = root.getElementsByTagName("rule")
 
         for rule in rules:
-            gql = self._to_text(rule.getElementsByTagName("gql")[0])
+            eql = self._to_text(rule.getElementsByTagName("eql")[0])
             idx = [self._to_text(x) for x in rule.getElementsByTagName("idx")]
             ner: List[Dict[str, str]] = []
 
@@ -65,7 +65,7 @@ class ExplicitXmlParser:
                 if len(entity_map) > 0:
                     ner.append(entity_map)
 
-            result.append(ExplicitRule(AntlrParser().get_tokens(gql), ner, list(map(lambda x: int(x), idx))))
+            result.append(ExplicitRule(AntlrParser().get_tokens(eql), ner, list(map(lambda x: int(x), idx))))
 
         return result
 
