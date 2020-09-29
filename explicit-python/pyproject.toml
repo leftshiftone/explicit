@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "explicit"
+version = "0.1.0"
+description = "Explicit is a cross platform library for rule based named entity recognition."
+authors = ["Leftshift One <contact@leftshift.one>"]
+
+[tool.poetry.dependencies]
+python = "^3.6"
+antlr4-python3-runtime = "^4.8"
+
+[tool.poetry.dev-dependencies]
+pytest = "^3.0"
+pytest-cov = "^2.8.1"
+pytest-timeout = "^1.3"
+toml = "^0.10.0"
+
+[tool.poetry.scripts]
+clean = "poetry_scripts:clean"
+install = "poetry_scripts:install"
+test = "poetry_scripts:test"
+build = "poetry_scripts:build"
+publish = "poetry_scripts:publish"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
