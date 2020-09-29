@@ -1,5 +1,11 @@
 # explicit
 
+[![CircleCI branch](https://img.shields.io/circleci/project/github/leftshiftone/explicit/master.svg?style=flat-square)](https://circleci.com/gh/leftshiftone/explicit)
+[![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/leftshiftone/explicit.svg?style=flat-square)](https://github.com/leftshiftone/explicit/tags)
+[![Bintray](https://img.shields.io/badge/dynamic/json.svg?label=bintray&query=name&style=flat-square&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fleftshiftone%2Fexplicit%2Fone.leftshift.explicit.explicit%2Fversions%2F_latest)](https://bintray.com/leftshiftone/explicit/one.leftshift.explicit.explicit/_latestVersion)
+[![PyPI](https://img.shields.io/pypi/v/explicit?style=flat-square)](https://pypi.org/project/explicit/)
+
+
 Explicit is a cross platform library for rule based named entity recognition.
 Although machine learning is the often preferred way to solve this kind of tasks
 a rule based approach can lead for specific tasks to faster and more accurate results.
