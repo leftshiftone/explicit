@@ -148,13 +148,6 @@ jobs:
           name: Install dependencies for all projects
           command: ./gradlew dependencies installDependencies
       - run:
-          name: Download mock server
-          command: ./gradlew prepareMockServer
-      - run:
-          name: Start mock server
-          command: java -jar -Xmx512m build/mock/heimdall-mock.jar
-          background: true
-      - run:
           name: Test all projects
           command: ./gradlew test --stacktrace
       - run:
