@@ -2,7 +2,7 @@
 
 [![CircleCI branch](https://img.shields.io/circleci/project/github/leftshiftone/explicit/master.svg?style=flat-square)](https://circleci.com/gh/leftshiftone/explicit)
 [![GitHub tag (latest SemVer)](https://img.shields.io/github/tag/leftshiftone/explicit.svg?style=flat-square)](https://github.com/leftshiftone/explicit/tags)
-[![Bintray](https://img.shields.io/badge/dynamic/json.svg?label=bintray&query=name&style=flat-square&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fleftshiftone%2Fexplicit%2Fone.leftshift.explicit.explicit%2Fversions%2F_latest)](https://bintray.com/leftshiftone/explicit/one.leftshift.explicit.explicit/_latestVersion)
+[![Bintray](https://img.shields.io/badge/dynamic/json.svg?label=bintray&query=name&style=flat-square&url=https%3A%2F%2Fapi.bintray.com%2Fpackages%2Fleftshiftone%2Fexplicit%2Fone.leftshift.explicit.explicit-java%2Fversions%2F_latest)](https://bintray.com/leftshiftone/explicit/one.leftshift.explicit.explicit-java/_latestVersion)
 [![PyPI](https://img.shields.io/pypi/v/explicit-nlu?style=flat-square)](https://pypi.org/project/explicit-nlu/)
 
 
@@ -270,3 +270,19 @@ getYear(d) // returns the year value of the date value d
 curMonth() // returns the current month value of the system date
 substringAfter(s, i) // returns the substring of s beginning at index i 
 ````
+
+## Development
+
+### Release
+Releases are triggered locally. Just a tag will be pushed and CI takes care of the rest.
+
+#### Major
+Run `./gradlew final -x bintrayUpload -Prelease.scope=major` locally.
+
+#### Minor
+Run `./gradlew final -x bintrayUpload -Prelease.scope=minor` locally.
+
+#### Patch
+Must be released from branch (e.g. `release/1.0.x`)
+
+Run `./gradlew final -x bintrayUpload -Prelease.scope=patch` locally.
