@@ -1,10 +1,9 @@
-# Generated from ECL.g4 by ANTLR 4.7.2
+# Generated from ECL.g4 by ANTLR 4.7
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
 from typing.io import TextIO
 import sys
-
 
 def serializedATN():
     with StringIO() as buf:
@@ -72,10 +71,9 @@ class ECLParser ( Parser ):
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.7.2")
+        self.checkVersion("4.7")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
-
 
 
 
@@ -196,7 +194,6 @@ class ECLParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class StringContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -241,7 +238,6 @@ class ECLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class NumberContext(ParserRuleContext):
 
@@ -288,7 +284,6 @@ class ECLParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class Bool_Context(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -333,7 +328,6 @@ class ECLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class VariableContext(ParserRuleContext):
 
@@ -384,7 +378,6 @@ class ECLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class FunctionContext(ParserRuleContext):
 
@@ -474,7 +467,6 @@ class ECLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class ArgumentContext(ParserRuleContext):
 

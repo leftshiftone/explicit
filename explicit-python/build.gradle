@@ -15,12 +15,14 @@ task test() {
         execute(["poetry", "run", "test"])
     }
 }
+test.dependsOn rootProject.tasks.generateGrammarSourcePython
 
 task assemble() {
     doLast {
         execute(["poetry", "build"])
     }
 }
+assemble.dependsOn rootProject.tasks.generateGrammarSourcePython
 
 task build() {
     dependsOn test, assemble

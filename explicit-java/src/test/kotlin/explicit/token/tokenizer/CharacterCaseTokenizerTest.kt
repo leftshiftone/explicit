@@ -2,11 +2,9 @@ package explicit.token.tokenizer
 
 import explicit.parser.xml.ExplicitXmlParser
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import java.io.FileInputStream
 
-@Disabled
 class CharacterCaseTokenizerTest {
 
     @Test
