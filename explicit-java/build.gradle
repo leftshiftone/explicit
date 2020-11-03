@@ -24,7 +24,11 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")
+classes.dependsOn rootProject.tasks.generateGrammarSourceJava
 
+compileKotlin {
+    kotlinOptions.jvmTarget = 1.8
+}
 test {
     useJUnitPlatform()
 }

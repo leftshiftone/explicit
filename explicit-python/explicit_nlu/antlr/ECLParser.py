@@ -1,14 +1,9 @@
-# Generated from ECL.g4 by ANTLR 4.8
+# Generated from ECL.g4 by ANTLR 4.7.2
 # encoding: utf-8
-import sys
-from io import StringIO
-
 from antlr4 import *
-
-if sys.version_info[1] > 5:
-	from typing import TextIO
-else:
-	from typing.io import TextIO
+from io import StringIO
+from typing.io import TextIO
+import sys
 
 
 def serializedATN():
@@ -77,7 +72,7 @@ class ECLParser ( Parser ):
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.8")
+        self.checkVersion("4.7.2")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
