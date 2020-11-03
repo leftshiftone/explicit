@@ -270,3 +270,19 @@ getYear(d) // returns the year value of the date value d
 curMonth() // returns the current month value of the system date
 substringAfter(s, i) // returns the substring of s beginning at index i 
 ````
+
+## Development
+
+### Release
+Releases are triggered locally. Just a tag will be pushed and CI takes care of the rest.
+
+#### Major
+Run `./gradlew final -x bintrayUpload -Prelease.scope=major` locally.
+
+#### Minor
+Run `./gradlew final -x bintrayUpload -Prelease.scope=minor` locally.
+
+#### Patch
+Must be released from branch (e.g. `release/1.0.x`)
+
+Run `./gradlew final -x bintrayUpload -Prelease.scope=patch` locally.
