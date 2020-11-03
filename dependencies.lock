@@ -27,7 +27,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -70,7 +70,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -113,7 +113,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -156,7 +156,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -199,7 +199,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -242,7 +242,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -285,7 +285,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -328,7 +328,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -371,7 +371,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
@@ -414,7 +414,7 @@
         },
         "org.antlr:antlr4": {
             "locked": "4.7",
-            "requested": "4.7"
+            "requested": "4.8-1"
         },
         "org.antlr:antlr4-runtime": {
             "locked": "4.7",
