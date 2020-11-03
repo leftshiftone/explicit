@@ -116,10 +116,6 @@ jobs:
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
       - run: chmod a+x gradlew
       - run: ./gradlew dependencies installDependencies
-      - run: ./gradlew prepareMockServer
-      - run:
-          command: java -jar -Xmx512m build/mock/heimdall-mock.jar
-          background: true
       - run: ./gradlew test --stacktrace
       - run: ./gradlew assemble --stacktrace
       - run: ./gradlew final publish -Prelease.useLastTag=true --stacktrace
@@ -147,13 +143,6 @@ jobs:
       - run:
           name: Install dependencies for all projects
           command: ./gradlew dependencies installDependencies
-      - run:
-          name: Download mock server
-          command: ./gradlew prepareMockServer
-      - run:
-          name: Start mock server
-          command: java -jar -Xmx512m build/mock/heimdall-mock.jar
-          background: true
       - run:
           name: Test all projects
           command: ./gradlew test --stacktrace

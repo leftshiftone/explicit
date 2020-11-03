@@ -1,56 +1,62 @@
+/*
+ * Copyright (c) 2016-2020, Leftshift One
+ * __________________
+ * [2019] Leftshift One
+ * All Rights Reserved.
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Leftshift One and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Leftshift One
+ * and its suppliers and may be covered by Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Leftshift One.
+ */
+
 apply plugin: "kotlin"
 apply plugin: "org.jetbrains.dokka"
 apply plugin: "com.jfrog.bintray"
-apply plugin: "one.leftshift.asteria-publish"
 apply plugin: "one.leftshift.asteria-dependency"
-
-
-repositories {
-    jcenter()
-}
+apply plugin: "one.leftshift.asteria-publish"
+apply plugin: "one.leftshift.asteria-version"
 
 dependencies {
+    compile "org.antlr:antlr4-runtime:4.7.2"
     implementation "org.slf4j:slf4j-api:1.7.28"
-    implementation "org.antlr:antlr4-runtime:4.7.2"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
 
-    testImplementation "org.junit.jupiter:junit-jupiter"
-    testImplementation "org.assertj:assertj-core:3.11.1"
-    testRuntime "org.slf4j:slf4j-simple:1.7.28"
+    testCompile "org.junit.jupiter:junit-jupiter-engine"
+    testCompile "org.assertj:assertj-core"
 }
-
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
 
 sourceSets.main.java.srcDirs += new File(buildDir, "generated-src/antlr")
-
-test {
-    useJUnitPlatform()
-}
-
-tasks.withType(Test) { testTask ->
-    maxHeapSize = "1G"
-    testTask.beforeTest { descriptor ->
-        logger.lifecycle(descriptor.toString())
-    }
-}
+classes.dependsOn rootProject.tasks.generateGrammarSourceJava
 
 task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
     outputFormat = "javadoc"
     outputDirectory = "${buildDir}/dokkaJavadoc"
 }
+
 task javadocJar(type: Jar) {
     from dokkaJavadoc
     classifier "javadoc"
 }
-asteriaPublish {
-    enableBranchSnapshotRepositories = false
+
+test {
+    useJUnitPlatform()
+}
+
+archivesBaseName = rootProject.name
+artifacts {
+    archives sourceJar
+    archives javadocJar
 }
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            artifactId = project.name
+            artifactId rootProject.name
             from components.java
             artifact sourceJar
             artifact javadocJar
@@ -98,10 +104,3 @@ bintray {
     }
 }
 
-if (System.getenv("CI")) {
-    publish.finalizedBy bintrayUpload
-}
-if (System.getenv("CI") == null || System.getenv("CI") != "true") {
-    rootProject.tasks.release.dependsOn tasks.generateLock
-    rootProject.tasks.release.dependsOn tasks.saveLock
-}

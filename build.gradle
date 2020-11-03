@@ -1,6 +1,24 @@
+
+/*
+ * Copyright (c) 2016-2020, Leftshift One
+ * __________________
+ * [2019] Leftshift One
+ * All Rights Reserved.
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Leftshift One and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Leftshift One
+ * and its suppliers and may be covered by Patents,
+ * patents in process, and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Leftshift One.
+ */
+
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
 import groovy.util.Node
+import org.gradle.api.credentials.AwsCredentials
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -28,14 +46,10 @@ buildscript {
 }
 
 apply plugin: "antlr"
-apply plugin: "kotlin"
 apply plugin: "one.leftshift.asteria-email"
 apply plugin: "one.leftshift.asteria-report"
-apply plugin: "one.leftshift.asteria-publish"
 apply plugin: "one.leftshift.asteria-dependency"
 apply plugin: "one.leftshift.asteria-version"
-
-apply plugin: "com.jfrog.bintray"
 
 asteriaEmail {
     smtpHost = System.getenv("ASTERIA_EMAIL_SMTP_HOST")
@@ -48,91 +62,53 @@ asteriaReport {
     reportingUrl = System.getenv("ASTERIA_REPORT_URL")
     depsJsonResult = file("${rootProject.buildDir}/dependencyUpdates/report.json")
     junitXmlResults = fileTree(rootProject.projectDir) {
-        include(
-                "**/test-results/*/TEST-*.xml",
-                "**/explicit-python/build/test/TEST-*.xml"
-        )
+        include("**/test-results/*/TEST-*.xml")
     }
     junitBinaryResults = files(["test"].collect {
         "${project.buildDir}/test-results/${it}/binary"
     })
 }
 
-asteriaPublish {
-    enableBranchSnapshotRepositories = false
-}
+allprojects {
+    apply plugin: "one.leftshift.asteria-dependency"
+    apply plugin: "one.leftshift.asteria-version"
 
-asteriaDependency {
-    enableBranchSnapshotRepositories = true
-}
-dependencyManagement {
-    imports {
-        mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.13.RELEASE") {
-            bomProperty("kotlin.version", kotlinVersion)
+    repositories {
+        jcenter()
+        maven {
+            credentials(AwsCredentials) {
+                accessKey gradle.awsAccessKey
+                secretKey gradle.awsSecretKey
+            }
+            url gradle.releasesRepositoryUrl
+        }
+        maven {
+            credentials(AwsCredentials) {
+                accessKey gradle.awsAccessKey
+                secretKey gradle.awsSecretKey
+            }
+            url gradle.snapshotsRepositoryUrl
         }
     }
-    dependencies {
-        dependency "org.apache.velocity:velocity-engine-core:2.1"
-    }
-}
 
-if (System.getenv("CI")) {
-    afterEvaluate { rootProject.tasks.postRelease.finalizedBy rootProject.tasks.sendReleaseEmail }
-    if (tasks.findByName("publish")) {
-        afterEvaluate { rootProject.tasks.postRelease.dependsOn tasks.publish }
+    asteriaDependency {
+        enableBranchSnapshotRepositories = true
     }
-}
-
-repositories {
-    jcenter()
-    maven {
-        credentials(AwsCredentials) {
-            accessKey gradle.awsAccessKey
-            secretKey gradle.awsSecretKey
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.13.RELEASE") {
+                bomProperty("kotlin.version", kotlinVersion)
+            }
         }
-        url gradle.releasesRepositoryUrl
     }
-    maven {
-        credentials(AwsCredentials) {
-            accessKey gradle.awsAccessKey
-            secretKey gradle.awsSecretKey
+
+    if (System.getenv("CI")) {
+        afterEvaluate { rootProject.tasks.postRelease.finalizedBy rootProject.tasks.sendReleaseEmail }
+        if (tasks.findByName("publish")) {
+            afterEvaluate { rootProject.tasks.postRelease.dependsOn tasks.publish }
         }
-        url gradle.snapshotsRepositoryUrl
     }
 }
-
-dependencies {
-    antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
-    implementation "org.apache.velocity:velocity-engine-core"
-
-    testImplementation "org.junit.jupiter:junit-jupiter"
-    testImplementation "org.assertj:assertj-core"
-}
-
-test {
-    useJUnitPlatform()
-}
-
-generateGrammarSource {
-    outputDirectory = new File(project.rootDir, "explicit-java/build/generated-src/antlr/explicit/antlr")
-    arguments += ["-visitor", "-package", "explicit.antlr"]
-}
-compileKotlin.dependsOn generateGrammarSource
-
-//todo: configure it correctly with generategrammarsource task type
-//task generateGrammarSourcePython() {
-//    project.generateGrammarSource {
-//        outputDirectory = new File(project.rootDir, "explicit-python/antlr")
-//        arguments += ["-visitor", "-Dlanguage=Python3"]
-//        doLast {
-//            File file = new File(project.rootDir, "explicit-python/explicit_nlu/antlr/__init__.py")
-//            file.write ""
-//        }
-//    }.execute()
-//}
 
 subprojects {
     apply plugin: "one.leftshift.asteria-code-analytics"
@@ -148,6 +124,60 @@ subprojects {
         coverageExcludes = ["**/*Kt.class"]
     }
 }
+
+dependencies {
+    antlr "org.antlr:antlr4:4.7"
+}
+//
+//dependencies {
+//    antlr "org.antlr:antlr4:4.7.2" // use ANTLR version 4
+//
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+//    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+//    implementation "org.apache.velocity:velocity-engine-core"
+//
+//    testImplementation "org.junit.jupiter:junit-jupiter"
+//    testImplementation "org.assertj:assertj-core"
+//}
+//
+//test {
+//    useJUnitPlatform()
+//}
+
+//generateGrammarSource {
+//    outputDirectory = new File(project.rootDir, "explicit-java/build/generated-src/antlr/explicit/antlr")
+//    arguments += ["-visitor", "-package", "explicit.antlr"]
+//}
+//compileKotlin.dependsOn generateGrammarSource
+//
+
+task generateGrammarSourceJava(type: AntlrTask) {
+    source = project.sourceSets.main.antlr
+    outputDirectory = file("${project(":explicit-java").buildDir}/generated-src/antlr/explicit/antlr")
+    arguments += ["-visitor", "-package", "explicit.antlr"]
+}
+task generateGrammarSourcePython(type: AntlrTask) {
+    source = project.sourceSets.main.antlr
+    outputDirectory = file("${project(":explicit-python").projectDir}/explicit_nlu/antlr")
+    arguments += ["-visitor", "-Dlanguage=Python3"]
+}
+generateGrammarSource.dependsOn generateGrammarSourceJava
+generateGrammarSource.dependsOn generateGrammarSourcePython
+
+//subprojects {
+//    apply plugin: "one.leftshift.asteria-code-analytics"
+//
+//    asteriaCodeAnalytics {
+//        sonarUrl = System.getenv("SONAR_HOST_URL")
+//        sonarLoginToken = System.getenv("SONAR_LOGIN")
+//        xmlCoverageReportEnabled = true
+//        sonarProperties = [
+//                "sonar.test.inclusions"           : "**/*Test.*,**/*.test.ts,**/tests/test_*.py",
+//                "sonar.python.coverage.reportPath": "${project(":explicit-python").projectDir}/build/coverage/coverage.xml",
+//        ]
+//        coverageExcludes = ["**/*Kt.class"]
+//    }
+//}
 
 task setVersionPython() {
     doLast {
@@ -210,63 +240,4 @@ private int execute(List<String> command) {
     process.waitFor()
     logger.debug("Executed command '${command.join(" ")}'")
     return process.exitValue()
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId = project.name
-            from components.java
-            pom.withXml {
-                Node root = asNode()
-                root.appendNode("name", "GAIA SDK")
-                root.appendNode("description", "GAIA SDK is an open source software library in order to interact with the GAIA API.")
-                root.appendNode("url", "https://github.com/leftshiftone/explicit")
-
-                Node licenses = root.appendNode("licenses")
-                Node license = licenses.appendNode("license")
-                license.appendNode("name", "MIT")
-                license.appendNode("url", "https://github.com/leftshiftone/explicit/blob/master/LICENSE")
-
-                Node developers = root.appendNode("developers")
-                Node developer = developers.appendNode("developer")
-                developer.appendNode("id", "leftshiftone")
-                developer.appendNode("name", "Leftshift One")
-                developer.appendNode("email", "contact@leftshift.one")
-                developer.appendNode("organization", "Leftshift One Software GmbH")
-                developer.appendNode("organizationUrl", "https://www.leftshift.one")
-
-                Node scm = root.appendNode("scm")
-                scm.appendNode("connection", "scm:git:git://github.com/leftshiftone/explicit.git")
-                scm.appendNode("developerConnection", "scm:git:ssh://github.com:leftshiftone/explicit.git")
-                scm.appendNode("url", "https://github.com/leftshiftone/explicit")
-            }
-        }
-    }
-}
-
-bintray {
-    logger.info "Bintray deploy with user [${System.getenv('BINTRAY_USER')}] while working on ${project.name}"
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publish = true
-    override = true
-    pkg {
-        repo = "explicit"
-        name = "${project.group}.${project.name}"
-        userOrg = "leftshiftone"
-        licenses = ["MIT"]
-        vcsUrl = "https://github.com/leftshiftone/explicit.git"
-        publications = ["mavenJava"]
-    }
-}
-
-if (System.getenv("CI")) {
-    publish.finalizedBy bintrayUpload
-}
-
-if (System.getenv("CI") == null || System.getenv("CI") != "true") {
-    tasks.release.dependsOn tasks.generateLock
-    tasks.release.dependsOn tasks.saveLock
-    tasks.release.dependsOn tasks.persistDependencyLock
 }
