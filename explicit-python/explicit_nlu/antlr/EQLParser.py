@@ -1,10 +1,8 @@
 # Generated from EQL.g4 by ANTLR 4.8
 # encoding: utf-8
-import sys
-from io import StringIO
-
 from antlr4 import *
-
+from io import StringIO
+import sys
 if sys.version_info[1] > 5:
 	from typing import TextIO
 else:
@@ -68,16 +66,16 @@ class EQLParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'['", "']'", "'!'", "'`'", "'+'", "'^'",
-                     "'*'", "'?'", "'~'", "':'", "'\\'", "'#'", "<INVALID>",
-                     "'('", "')'", "'{'", "'}'", "<INVALID>", "','", "'.'",
+    literalNames = [ "<INVALID>", "'['", "']'", "'!'", "'`'", "'+'", "'^'", 
+                     "'*'", "'?'", "'~'", "':'", "'\\'", "'#'", "<INVALID>", 
+                     "'('", "')'", "'{'", "'}'", "<INVALID>", "','", "'.'", 
                      "<INVALID>", "<INVALID>", "<INVALID>", "';'" ]
 
-    symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
-                      "<INVALID>", "<INVALID>", "<INVALID>", "WILDCARD",
-                      "OPTIONAL", "TILDE", "COLON", "BACKSLASH", "HASHTAG",
-                      "BOOLEAN", "ROUND_LEFT", "ROUND_RIGHT", "CURLY_LEFT",
-                      "CURLY_RIGHT", "TEXT", "COMMA", "DOT", "ESCAPED",
+    symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
+                      "<INVALID>", "<INVALID>", "<INVALID>", "WILDCARD", 
+                      "OPTIONAL", "TILDE", "COLON", "BACKSLASH", "HASHTAG", 
+                      "BOOLEAN", "ROUND_LEFT", "ROUND_RIGHT", "CURLY_LEFT", 
+                      "CURLY_RIGHT", "TEXT", "COMMA", "DOT", "ESCAPED", 
                       "WHITESPACE", "LINE_COMMENT", "SEMICOLON" ]
 
     RULE_token = 0
@@ -94,8 +92,8 @@ class EQLParser ( Parser ):
     RULE_atomic = 11
     RULE_regex = 12
 
-    ruleNames =  [ "token", "escaped", "group", "like", "text", "not_",
-                   "wildcard", "optional", "alias", "label", "slot", "atomic",
+    ruleNames =  [ "token", "escaped", "group", "like", "text", "not_", 
+                   "wildcard", "optional", "alias", "label", "slot", "atomic", 
                    "regex" ]
 
     EOF = Token.EOF
@@ -1151,7 +1149,7 @@ class EQLParser ( Parser ):
             self.enterOuterAlt(localctx, 1)
             self.state = 111
             self.match(EQLParser.T__3)
-            self.state = 115
+            self.state = 115 
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
@@ -1179,7 +1177,7 @@ class EQLParser ( Parser ):
                     pass
 
 
-                self.state = 117
+                self.state = 117 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << EQLParser.T__0) | (1 << EQLParser.T__1) | (1 << EQLParser.T__2) | (1 << EQLParser.T__4) | (1 << EQLParser.T__5) | (1 << EQLParser.WILDCARD) | (1 << EQLParser.OPTIONAL) | (1 << EQLParser.TILDE) | (1 << EQLParser.COLON) | (1 << EQLParser.BACKSLASH) | (1 << EQLParser.HASHTAG) | (1 << EQLParser.BOOLEAN) | (1 << EQLParser.ROUND_LEFT) | (1 << EQLParser.ROUND_RIGHT) | (1 << EQLParser.CURLY_LEFT) | (1 << EQLParser.CURLY_RIGHT) | (1 << EQLParser.TEXT) | (1 << EQLParser.COMMA) | (1 << EQLParser.DOT) | (1 << EQLParser.ESCAPED) | (1 << EQLParser.WHITESPACE) | (1 << EQLParser.LINE_COMMENT) | (1 << EQLParser.SEMICOLON))) != 0)):
