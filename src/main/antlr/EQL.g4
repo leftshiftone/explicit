@@ -44,7 +44,7 @@ text      : TEXT;
 not_      : '!'(text | group | like);
 wildcard  : WILDCARD;
 optional  : (text | group | like | label | slot | atomic)OPTIONAL;
-alias     : (text | group | like | label | slot | optional | atomic) COLON TEXT;
+alias     : (text | group | like | label | slot | optional | atomic | wildcard) COLON TEXT;
 label     : HASHTAG text;
 slot      : CURLY_LEFT TEXT CURLY_RIGHT;
 // quantor   : CURLY_LEFT DIGIT (COMMA DIGIT)? CURLY_RIGHT;

@@ -16,6 +16,7 @@
 
 package explicit.api
 
+import java.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
@@ -40,6 +41,12 @@ class Navigator<T>(val list: List<T>) : Iterator<T>, Iterable<T> {
     fun setIndex(index: Int) = this.index.set(index)
 
     fun getCurr() = list[index.get() - 1]
+
+    fun getPrev(): Optional<T> {
+        if (index.get() >= 2)
+            return Optional.of(list[index.get() - 1])
+        return Optional.empty()
+    }
 
     fun getRemaining() = list.size - index.get()
 

@@ -1,8 +1,10 @@
 # Generated from EQL.g4 by ANTLR 4.8
 # encoding: utf-8
-from antlr4 import *
-from io import StringIO
 import sys
+from io import StringIO
+
+from antlr4 import *
+
 if sys.version_info[1] > 5:
 	from typing import TextIO
 else:
@@ -12,46 +14,47 @@ else:
 def serializedATN():
     with StringIO() as buf:
         buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\32")
-        buf.write("{\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
+        buf.write("|\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
         buf.write("\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4\f\t\f\4\r\t\r\4\16\t")
         buf.write("\16\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\7")
         buf.write("\2)\n\2\f\2\16\2,\13\2\3\2\3\2\3\3\3\3\3\4\3\4\3\4\3\4")
         buf.write("\7\4\66\n\4\f\4\16\49\13\4\3\4\3\4\3\5\3\5\3\5\3\6\3\6")
         buf.write("\3\7\3\7\3\7\3\7\5\7F\n\7\3\b\3\b\3\t\3\t\3\t\3\t\3\t")
-        buf.write("\3\t\5\tP\n\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\n")
-        buf.write("[\n\n\3\n\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\r\3")
-        buf.write("\r\3\r\7\rj\n\r\f\r\16\rm\13\r\3\r\3\r\3\16\3\16\3\16")
-        buf.write("\3\16\6\16u\n\16\r\16\16\16v\3\16\3\16\3\16\2\2\17\2\4")
-        buf.write("\6\b\n\f\16\20\22\24\26\30\32\2\3\3\2\6\6\2\u008e\2*\3")
-        buf.write("\2\2\2\4/\3\2\2\2\6\61\3\2\2\2\b<\3\2\2\2\n?\3\2\2\2\f")
-        buf.write("A\3\2\2\2\16G\3\2\2\2\20O\3\2\2\2\22Z\3\2\2\2\24_\3\2")
-        buf.write("\2\2\26b\3\2\2\2\30f\3\2\2\2\32p\3\2\2\2\34)\5\n\6\2\35")
-        buf.write(")\5\4\3\2\36)\5\16\b\2\37)\5\20\t\2 )\5\24\13\2!)\5\6")
-        buf.write("\4\2\")\5\b\5\2#)\5\f\7\2$)\5\26\f\2%)\5\22\n\2&)\5\30")
-        buf.write("\r\2\')\5\32\16\2(\34\3\2\2\2(\35\3\2\2\2(\36\3\2\2\2")
-        buf.write("(\37\3\2\2\2( \3\2\2\2(!\3\2\2\2(\"\3\2\2\2(#\3\2\2\2")
-        buf.write("($\3\2\2\2(%\3\2\2\2(&\3\2\2\2(\'\3\2\2\2),\3\2\2\2*(")
-        buf.write("\3\2\2\2*+\3\2\2\2+-\3\2\2\2,*\3\2\2\2-.\7\2\2\3.\3\3")
-        buf.write("\2\2\2/\60\7\27\2\2\60\5\3\2\2\2\61\67\7\3\2\2\62\66\5")
-        buf.write("\n\6\2\63\66\5\f\7\2\64\66\5\b\5\2\65\62\3\2\2\2\65\63")
-        buf.write("\3\2\2\2\65\64\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2\678\3")
-        buf.write("\2\2\28:\3\2\2\29\67\3\2\2\2:;\7\4\2\2;\7\3\2\2\2<=\7")
-        buf.write("\13\2\2=>\5\n\6\2>\t\3\2\2\2?@\7\24\2\2@\13\3\2\2\2AE")
-        buf.write("\7\5\2\2BF\5\n\6\2CF\5\6\4\2DF\5\b\5\2EB\3\2\2\2EC\3\2")
-        buf.write("\2\2ED\3\2\2\2F\r\3\2\2\2GH\7\t\2\2H\17\3\2\2\2IP\5\n")
-        buf.write("\6\2JP\5\6\4\2KP\5\b\5\2LP\5\24\13\2MP\5\26\f\2NP\5\30")
-        buf.write("\r\2OI\3\2\2\2OJ\3\2\2\2OK\3\2\2\2OL\3\2\2\2OM\3\2\2\2")
-        buf.write("ON\3\2\2\2PQ\3\2\2\2QR\7\n\2\2R\21\3\2\2\2S[\5\n\6\2T")
-        buf.write("[\5\6\4\2U[\5\b\5\2V[\5\24\13\2W[\5\26\f\2X[\5\20\t\2")
-        buf.write("Y[\5\30\r\2ZS\3\2\2\2ZT\3\2\2\2ZU\3\2\2\2ZV\3\2\2\2ZW")
-        buf.write("\3\2\2\2ZX\3\2\2\2ZY\3\2\2\2[\\\3\2\2\2\\]\7\f\2\2]^\7")
-        buf.write("\24\2\2^\23\3\2\2\2_`\7\16\2\2`a\5\n\6\2a\25\3\2\2\2b")
-        buf.write("c\7\22\2\2cd\7\24\2\2de\7\23\2\2e\27\3\2\2\2fk\7\20\2")
-        buf.write("\2gj\5\n\6\2hj\5\b\5\2ig\3\2\2\2ih\3\2\2\2jm\3\2\2\2k")
-        buf.write("i\3\2\2\2kl\3\2\2\2ln\3\2\2\2mk\3\2\2\2no\7\21\2\2o\31")
-        buf.write("\3\2\2\2pt\7\6\2\2qu\n\2\2\2ru\7\7\2\2su\7\b\2\2tq\3\2")
-        buf.write("\2\2tr\3\2\2\2ts\3\2\2\2uv\3\2\2\2vt\3\2\2\2vw\3\2\2\2")
-        buf.write("wx\3\2\2\2xy\7\6\2\2y\33\3\2\2\2\r(*\65\67EOZiktv")
+        buf.write("\3\t\5\tP\n\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n")
+        buf.write("\5\n\\\n\n\3\n\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\f\3\f")
+        buf.write("\3\r\3\r\3\r\7\rk\n\r\f\r\16\rn\13\r\3\r\3\r\3\16\3\16")
+        buf.write("\3\16\3\16\6\16v\n\16\r\16\16\16w\3\16\3\16\3\16\2\2\17")
+        buf.write("\2\4\6\b\n\f\16\20\22\24\26\30\32\2\3\3\2\6\6\2\u0090")
+        buf.write("\2*\3\2\2\2\4/\3\2\2\2\6\61\3\2\2\2\b<\3\2\2\2\n?\3\2")
+        buf.write("\2\2\fA\3\2\2\2\16G\3\2\2\2\20O\3\2\2\2\22[\3\2\2\2\24")
+        buf.write("`\3\2\2\2\26c\3\2\2\2\30g\3\2\2\2\32q\3\2\2\2\34)\5\n")
+        buf.write("\6\2\35)\5\4\3\2\36)\5\16\b\2\37)\5\20\t\2 )\5\24\13\2")
+        buf.write("!)\5\6\4\2\")\5\b\5\2#)\5\f\7\2$)\5\26\f\2%)\5\22\n\2")
+        buf.write("&)\5\30\r\2\')\5\32\16\2(\34\3\2\2\2(\35\3\2\2\2(\36\3")
+        buf.write("\2\2\2(\37\3\2\2\2( \3\2\2\2(!\3\2\2\2(\"\3\2\2\2(#\3")
+        buf.write("\2\2\2($\3\2\2\2(%\3\2\2\2(&\3\2\2\2(\'\3\2\2\2),\3\2")
+        buf.write("\2\2*(\3\2\2\2*+\3\2\2\2+-\3\2\2\2,*\3\2\2\2-.\7\2\2\3")
+        buf.write(".\3\3\2\2\2/\60\7\27\2\2\60\5\3\2\2\2\61\67\7\3\2\2\62")
+        buf.write("\66\5\n\6\2\63\66\5\f\7\2\64\66\5\b\5\2\65\62\3\2\2\2")
+        buf.write("\65\63\3\2\2\2\65\64\3\2\2\2\669\3\2\2\2\67\65\3\2\2\2")
+        buf.write("\678\3\2\2\28:\3\2\2\29\67\3\2\2\2:;\7\4\2\2;\7\3\2\2")
+        buf.write("\2<=\7\13\2\2=>\5\n\6\2>\t\3\2\2\2?@\7\24\2\2@\13\3\2")
+        buf.write("\2\2AE\7\5\2\2BF\5\n\6\2CF\5\6\4\2DF\5\b\5\2EB\3\2\2\2")
+        buf.write("EC\3\2\2\2ED\3\2\2\2F\r\3\2\2\2GH\7\t\2\2H\17\3\2\2\2")
+        buf.write("IP\5\n\6\2JP\5\6\4\2KP\5\b\5\2LP\5\24\13\2MP\5\26\f\2")
+        buf.write("NP\5\30\r\2OI\3\2\2\2OJ\3\2\2\2OK\3\2\2\2OL\3\2\2\2OM")
+        buf.write("\3\2\2\2ON\3\2\2\2PQ\3\2\2\2QR\7\n\2\2R\21\3\2\2\2S\\")
+        buf.write("\5\n\6\2T\\\5\6\4\2U\\\5\b\5\2V\\\5\24\13\2W\\\5\26\f")
+        buf.write("\2X\\\5\20\t\2Y\\\5\30\r\2Z\\\5\16\b\2[S\3\2\2\2[T\3\2")
+        buf.write("\2\2[U\3\2\2\2[V\3\2\2\2[W\3\2\2\2[X\3\2\2\2[Y\3\2\2\2")
+        buf.write("[Z\3\2\2\2\\]\3\2\2\2]^\7\f\2\2^_\7\24\2\2_\23\3\2\2\2")
+        buf.write("`a\7\16\2\2ab\5\n\6\2b\25\3\2\2\2cd\7\22\2\2de\7\24\2")
+        buf.write("\2ef\7\23\2\2f\27\3\2\2\2gl\7\20\2\2hk\5\n\6\2ik\5\b\5")
+        buf.write("\2jh\3\2\2\2ji\3\2\2\2kn\3\2\2\2lj\3\2\2\2lm\3\2\2\2m")
+        buf.write("o\3\2\2\2nl\3\2\2\2op\7\21\2\2p\31\3\2\2\2qu\7\6\2\2r")
+        buf.write("v\n\2\2\2sv\7\7\2\2tv\7\b\2\2ur\3\2\2\2us\3\2\2\2ut\3")
+        buf.write("\2\2\2vw\3\2\2\2wu\3\2\2\2wx\3\2\2\2xy\3\2\2\2yz\7\6\2")
+        buf.write("\2z\33\3\2\2\2\r(*\65\67EO[jluw")
         return buf.getvalue()
 
 
@@ -65,16 +68,16 @@ class EQLParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    literalNames = [ "<INVALID>", "'['", "']'", "'!'", "'`'", "'+'", "'^'", 
-                     "'*'", "'?'", "'~'", "':'", "'\\'", "'#'", "<INVALID>", 
-                     "'('", "')'", "'{'", "'}'", "<INVALID>", "','", "'.'", 
+    literalNames = [ "<INVALID>", "'['", "']'", "'!'", "'`'", "'+'", "'^'",
+                     "'*'", "'?'", "'~'", "':'", "'\\'", "'#'", "<INVALID>",
+                     "'('", "')'", "'{'", "'}'", "<INVALID>", "','", "'.'",
                      "<INVALID>", "<INVALID>", "<INVALID>", "';'" ]
 
-    symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
-                      "<INVALID>", "<INVALID>", "<INVALID>", "WILDCARD", 
-                      "OPTIONAL", "TILDE", "COLON", "BACKSLASH", "HASHTAG", 
-                      "BOOLEAN", "ROUND_LEFT", "ROUND_RIGHT", "CURLY_LEFT", 
-                      "CURLY_RIGHT", "TEXT", "COMMA", "DOT", "ESCAPED", 
+    symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>",
+                      "<INVALID>", "<INVALID>", "<INVALID>", "WILDCARD",
+                      "OPTIONAL", "TILDE", "COLON", "BACKSLASH", "HASHTAG",
+                      "BOOLEAN", "ROUND_LEFT", "ROUND_RIGHT", "CURLY_LEFT",
+                      "CURLY_RIGHT", "TEXT", "COMMA", "DOT", "ESCAPED",
                       "WHITESPACE", "LINE_COMMENT", "SEMICOLON" ]
 
     RULE_token = 0
@@ -91,8 +94,8 @@ class EQLParser ( Parser ):
     RULE_atomic = 11
     RULE_regex = 12
 
-    ruleNames =  [ "token", "escaped", "group", "like", "text", "not_", 
-                   "wildcard", "optional", "alias", "label", "slot", "atomic", 
+    ruleNames =  [ "token", "escaped", "group", "like", "text", "not_",
+                   "wildcard", "optional", "alias", "label", "slot", "atomic",
                    "regex" ]
 
     EOF = Token.EOF
@@ -829,6 +832,10 @@ class EQLParser ( Parser ):
             return self.getTypedRuleContext(EQLParser.AtomicContext,0)
 
 
+        def wildcard(self):
+            return self.getTypedRuleContext(EQLParser.WildcardContext,0)
+
+
         def getRuleIndex(self):
             return EQLParser.RULE_alias
 
@@ -855,7 +862,7 @@ class EQLParser ( Parser ):
         self.enterRule(localctx, 16, self.RULE_alias)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 88
+            self.state = 89
             self._errHandler.sync(self)
             la_ = self._interp.adaptivePredict(self._input,6,self._ctx)
             if la_ == 1:
@@ -893,10 +900,15 @@ class EQLParser ( Parser ):
                 self.atomic()
                 pass
 
+            elif la_ == 8:
+                self.state = 88
+                self.wildcard()
+                pass
 
-            self.state = 90
-            self.match(EQLParser.COLON)
+
             self.state = 91
+            self.match(EQLParser.COLON)
+            self.state = 92
             self.match(EQLParser.TEXT)
         except RecognitionException as re:
             localctx.exception = re
@@ -946,9 +958,9 @@ class EQLParser ( Parser ):
         self.enterRule(localctx, 18, self.RULE_label)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 93
-            self.match(EQLParser.HASHTAG)
             self.state = 94
+            self.match(EQLParser.HASHTAG)
+            self.state = 95
             self.text()
         except RecognitionException as re:
             localctx.exception = re
@@ -1000,11 +1012,11 @@ class EQLParser ( Parser ):
         self.enterRule(localctx, 20, self.RULE_slot)
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 96
-            self.match(EQLParser.CURLY_LEFT)
             self.state = 97
-            self.match(EQLParser.TEXT)
+            self.match(EQLParser.CURLY_LEFT)
             self.state = 98
+            self.match(EQLParser.TEXT)
+            self.state = 99
             self.match(EQLParser.CURLY_RIGHT)
         except RecognitionException as re:
             localctx.exception = re
@@ -1068,31 +1080,31 @@ class EQLParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 100
+            self.state = 101
             self.match(EQLParser.ROUND_LEFT)
-            self.state = 105
+            self.state = 106
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while _la==EQLParser.TILDE or _la==EQLParser.TEXT:
-                self.state = 103
+                self.state = 104
                 self._errHandler.sync(self)
                 token = self._input.LA(1)
                 if token in [EQLParser.TEXT]:
-                    self.state = 101
+                    self.state = 102
                     self.text()
                     pass
                 elif token in [EQLParser.TILDE]:
-                    self.state = 102
+                    self.state = 103
                     self.like()
                     pass
                 else:
                     raise NoViableAltException(self)
 
-                self.state = 107
+                self.state = 108
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
 
-            self.state = 108
+            self.state = 109
             self.match(EQLParser.ROUND_RIGHT)
         except RecognitionException as re:
             localctx.exception = re
@@ -1137,17 +1149,17 @@ class EQLParser ( Parser ):
         self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
-            self.state = 110
+            self.state = 111
             self.match(EQLParser.T__3)
-            self.state = 114 
+            self.state = 115
             self._errHandler.sync(self)
             _la = self._input.LA(1)
             while True:
-                self.state = 114
+                self.state = 115
                 self._errHandler.sync(self)
                 la_ = self._interp.adaptivePredict(self._input,9,self._ctx)
                 if la_ == 1:
-                    self.state = 111
+                    self.state = 112
                     _la = self._input.LA(1)
                     if _la <= 0 or _la==EQLParser.T__3:
                         self._errHandler.recoverInline(self)
@@ -1157,23 +1169,23 @@ class EQLParser ( Parser ):
                     pass
 
                 elif la_ == 2:
-                    self.state = 112
+                    self.state = 113
                     self.match(EQLParser.T__4)
                     pass
 
                 elif la_ == 3:
-                    self.state = 113
+                    self.state = 114
                     self.match(EQLParser.T__5)
                     pass
 
 
-                self.state = 116 
+                self.state = 117
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
                 if not ((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << EQLParser.T__0) | (1 << EQLParser.T__1) | (1 << EQLParser.T__2) | (1 << EQLParser.T__4) | (1 << EQLParser.T__5) | (1 << EQLParser.WILDCARD) | (1 << EQLParser.OPTIONAL) | (1 << EQLParser.TILDE) | (1 << EQLParser.COLON) | (1 << EQLParser.BACKSLASH) | (1 << EQLParser.HASHTAG) | (1 << EQLParser.BOOLEAN) | (1 << EQLParser.ROUND_LEFT) | (1 << EQLParser.ROUND_RIGHT) | (1 << EQLParser.CURLY_LEFT) | (1 << EQLParser.CURLY_RIGHT) | (1 << EQLParser.TEXT) | (1 << EQLParser.COMMA) | (1 << EQLParser.DOT) | (1 << EQLParser.ESCAPED) | (1 << EQLParser.WHITESPACE) | (1 << EQLParser.LINE_COMMENT) | (1 << EQLParser.SEMICOLON))) != 0)):
                     break
 
-            self.state = 118
+            self.state = 119
             self.match(EQLParser.T__3)
         except RecognitionException as re:
             localctx.exception = re

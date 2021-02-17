@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, List
+from typing import TypeVar, Generic, List, Optional
 
 T = TypeVar("T")
 
@@ -36,6 +36,11 @@ class Navigator(Generic[T]):
 
     def get_curr(self) -> T:
         return self.list[self.index - 1]
+
+    def get_prev(self) -> Optional[T]:
+        if self.index >= 2:
+            return self.list[self.index - 2]
+        return None
 
     def get_remaining(self) -> int:
         return self.__len__() - self.index

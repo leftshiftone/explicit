@@ -55,6 +55,7 @@ class ExplicitConversionBinding(variables: Map<String, Any> = mapOf()) : IConver
         }
         functions["getYear"] = { it -> (it[0] as LocalDateTime).year }
         functions["curMonth"] = {LocalDateTime.now().month.value}
+        functions["curDate"] = {LocalDateTime.now()}
         functions["substringAfter"] = {it[0].toString().substringAfter(it[1].toString())}
     }
 

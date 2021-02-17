@@ -25,18 +25,13 @@ import explicit.token.Not
 import explicit.token.Optional
 import explicit.token.Wildcard
 import explicit.token.tokenizer.CharacterCaseTokenizer
-import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.collections.HashMap
-import kotlin.collections.HashSet
 
 class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
 
     fun evaluate(text: String, excludes: Set<List<Int>> = HashSet()): ExplicitRuleEvaluation {
         if (rule.rule.all { e -> e is Wildcard })
             return ExplicitRuleEvaluation(true, HashMap(), ArrayList(HashSet()))
-
-        // val index = excludes.map { it.last() }.max() ?: 0
 
         val tokenCount = rule.rule.filter { e -> e !is Wildcard && e !is Not }.count()
 
@@ -50,12 +45,13 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
         val entries = HashMap<String, String>()
         val negations = ArrayList<IToken>()
         val indices = ArrayList<Int>()
+        val wildcardCollector = HashMap<String, ArrayList<String>>()
 
         while (textNav.hasNext()) {
             val token = textNav.next()
-            val isOptional = token is Optional || token is Alias && token.token is Optional
+            val isOptional = token is Optional || (token is Alias && token.token is Optional)
 
-            if (token is Wildcard) {
+            if (token is Wildcard || (token is Alias && token.token is Wildcard)) {
                 wildcard.set(true)
                 continue
             }
@@ -88,6 +84,9 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
 
                 if (result) {
                     wildcard.set(false)
+
+                    wildcardCollector.forEach { k, v -> entries[k] = v.joinToString(" ") }
+
                     if (rule.idx.isEmpty() || rule.idx.contains(textNav.getIndex() - 1)) {
                         indices.addAll(indices1)
                     }
@@ -105,6 +104,12 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                         break
                     }
                     return ExplicitRuleEvaluation(false, entries, ArrayList())
+                }
+                val optPrev = textNav.getPrev().get()
+                if (!result && optPrev is Alias && optPrev.token is Wildcard) {
+                    val alias = (textNav.getPrev().get() as Alias).alias
+                    wildcardCollector.putIfAbsent(alias, ArrayList())
+                    wildcardCollector[alias]?.add(ruleNav.getCurr())
                 }
             }
         }

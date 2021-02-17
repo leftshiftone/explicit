@@ -28,12 +28,13 @@ class ExplicitEvaluator:
         entries:Dict[str, str] = dict()
         negations:List[IToken] = []
         indices:List[int] = []
+        wildcard_collector: Dict[str, List[str]] = {}
 
         while text_nav.has_next():
             token = text_nav.__next__()
             is_optional = isinstance(token, Optional) or (isinstance(token, Alias) and isinstance(token.token, Optional))
 
-            if isinstance(token, Wildcard):
+            if isinstance(token, Wildcard) or (isinstance(token, Alias) and isinstance(token.token, Wildcard)):
                 wildcard = True
                 continue
 
@@ -67,6 +68,10 @@ class ExplicitEvaluator:
 
                 if result:
                     wildcard = False
+
+                    for key in wildcard_collector:
+                        entries[key] = " ".join(wildcard_collector[key])
+
                     if len(self.rule.idx) == 0 or (text_nav.get_index() - 1) in self.rule.idx:
                         indices.extend(indices1)
                     break
@@ -82,6 +87,14 @@ class ExplicitEvaluator:
                         text_nav.reset()
                         break
                     return ExplicitEvaluation(False, entries, list())
+
+                opt_prev = text_nav.get_prev()
+                if not result and isinstance(opt_prev, Alias) and isinstance(opt_prev.token, Wildcard):
+                    # noinspection PyUnresolvedReferences
+                    alias = text_nav.get_prev().alias
+                    if alias not in wildcard_collector:
+                        wildcard_collector[alias] = []
+                    wildcard_collector[alias].append(rule_nav.get_curr())
 
         return ExplicitEvaluation(candidate, entries, indices)
 

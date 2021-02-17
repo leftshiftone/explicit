@@ -37,6 +37,7 @@ class ExplicitConversionBinding(IConversionBinding):
             "lastDayOfMonth": lambda args: calendar.monthrange(int(args[1]), int(args[0]))[1],
             "getYear": lambda args: args[0].year,
             "curMonth": lambda args: date.today().month,
+            "curDate": lambda args: date.today(),
             "substringAfter": lambda args: args[0][args[0].index(args[1]) + len(args[1]):],
             "toDate": to_date
         }
