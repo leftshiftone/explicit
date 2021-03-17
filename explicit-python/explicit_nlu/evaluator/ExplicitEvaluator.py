@@ -34,7 +34,17 @@ class ExplicitEvaluator:
             token = text_nav.__next__()
             is_optional = isinstance(token, Optional) or (isinstance(token, Alias) and isinstance(token.token, Optional))
 
-            if isinstance(token, Wildcard) or (isinstance(token, Alias) and isinstance(token.token, Wildcard)):
+            if isinstance(token, Wildcard):
+                wildcard = True
+                continue
+            if isinstance(token, Alias) and isinstance(token.token, Wildcard):
+                if not text_nav.has_next():
+                    collector = []
+                    while rule_nav.has_next():
+                        rule_nav.__next__()
+                        collector.append(rule_nav.get_curr())
+                        indices.append(rule_nav.get_index())
+                    entries[token.alias] = " ".join(collector)
                 wildcard = True
                 continue
 

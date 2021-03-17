@@ -51,10 +51,24 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
             val token = textNav.next()
             val isOptional = token is Optional || (token is Alias && token.token is Optional)
 
-            if (token is Wildcard || (token is Alias && token.token is Wildcard)) {
+            if (token is Wildcard) {
                 wildcard.set(true)
                 continue
             }
+            if (token is Alias && token.token is Wildcard) {
+                if (textNav.hasNext()) {
+                    val collector = ArrayList<String>()
+                    while (ruleNav.hasNext()) {
+                        ruleNav.next()
+                        collector.add(ruleNav.getCurr())
+                        indices.add(ruleNav.getIndex())
+                    }
+                    entries[token.alias] = collector.joinToString(" ")
+                }
+                wildcard.set(true)
+                continue
+            }
+
             if (token is Not) {
                 negations.add(token.token)
                 continue
