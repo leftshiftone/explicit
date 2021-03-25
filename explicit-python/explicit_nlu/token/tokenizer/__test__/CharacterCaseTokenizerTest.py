@@ -1,5 +1,7 @@
-import unittest
 import os
+import unittest
+
+from explicit_nlu.parser.ExplicitRules import Token
 from explicit_nlu.parser.xml.ExplicitXmlParser import ExplicitXmlParser
 from explicit_nlu.token.tokenizer import CharacterCaseTokenizer
 
@@ -12,6 +14,16 @@ class CharacterCaseTokenizerTest(unittest.TestCase):
         self.assertEqual(["abc", "/", "xyz"], CharacterCaseTokenizer.tokenize("abc/xyz"))
         self.assertEqual(["2018", "."], CharacterCaseTokenizer.tokenize("2018."))
         self.assertEqual(["a", "früh", ".", "b", "spät", ".", "c"], CharacterCaseTokenizer.tokenize("a früh. b spät. c"))
+        self.assertEqual(["früh", "bis", "spät"], CharacterCaseTokenizer.tokenize("früh bis\n spät"))
+        self.assertEqual(["sommer", "regen"], CharacterCaseTokenizer.tokenize("sommerregen", [Token(pattern="sommer",
+                                                                                                    replacement="",
+                                                                                                    boundary=True,
+                                                                                                    regex=True)]))
+        self.assertEqual(["sommer", "regen"], CharacterCaseTokenizer.tokenize("sommerregen", [Token(pattern="regen",
+                                                                                                    replacement="",
+                                                                                                    boundary=True,
+                                                                                                    regex=True)]))
+
 
     def test_tokenization_with_price_tokens(self):
         rulez = ExplicitXmlParser().parse(f"{self.root_dir}/../../../../../src/main/resources/de/price.xml")
