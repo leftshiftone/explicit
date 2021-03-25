@@ -63,7 +63,7 @@ class CharacterCaseTokenizer:
 
             return result
 
-        a_list = list(map(evaluate_token, text.lower().split(" ")))
+        a_list = list(map(evaluate_token, text.lower().split()))
         return [item for sublist in a_list for item in sublist]
 
 
