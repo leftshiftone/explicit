@@ -12,7 +12,7 @@ class CharacterCaseTokenizer:
         def evaluate_token(part: str):
             for token in tokens:
                 if not token.regex and token.pattern == part:
-                    return (token.replacement or part).split(" ")
+                    return (token.replacement or part).split()
 
                 if token.regex:
                     matcher = re.search(token.pattern, part)
@@ -20,8 +20,9 @@ class CharacterCaseTokenizer:
 
                     if matcher and (token.boundary or not is_boundary):
                         list = []
-                        if matcher.pos > 0:
-                            list.extend(CharacterCaseTokenizer.tokenize(part[matcher.pos], tokens))
+                        if matcher.start() > 0:
+                            list.extend(CharacterCaseTokenizer.tokenize(part[0:matcher.start()], tokens))
+
                         if len(matcher.groups()) > 0:
                             for group in matcher.groups():
                                 list.extend([group])
@@ -30,9 +31,7 @@ class CharacterCaseTokenizer:
 
                         if len(part) > len(matcher.group()):
                             if not part.endswith(matcher.group()):
-                                list.append(part[matcher.endpos - 1])
-                            else:
-                                list.insert(len(list) - 1, part[0:matcher.regs[0][0]])
+                                list.extend(CharacterCaseTokenizer.tokenize(part[matcher.end():], tokens))
 
                         return list
 
