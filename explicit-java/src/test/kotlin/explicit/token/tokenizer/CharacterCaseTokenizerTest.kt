@@ -1,5 +1,6 @@
 package explicit.token.tokenizer
 
+import explicit.parser.ExplicitRules.Token
 import explicit.parser.xml.ExplicitXmlParser
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
@@ -46,5 +47,14 @@ class CharacterCaseTokenizerTest {
         Assertions.assertEquals(listOf("ich", "suche", "von", "9.2.", "bis", "16.2", "2018").toString(), tokenizer.tokenize("ich suche von 9.2. bis 15/16.2 2018", rulez.tokens).toString())
     }
 
+    @Test
+    fun testTokenizeCompoundWord() {
+        val tokenizer = CharacterCaseTokenizer()
+        Assertions.assertEquals(listOf("sommer", "regen"), tokenizer.tokenize("sommerregen", listOf(Token(
+                pattern = "sommer",
+                replacement = "",
+                boundary = true,
+                regex = true))))
+    }
 
 }
