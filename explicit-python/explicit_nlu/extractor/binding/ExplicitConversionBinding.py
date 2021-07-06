@@ -39,7 +39,9 @@ class ExplicitConversionBinding(IConversionBinding):
             "curMonth": lambda args: date.today().month,
             "curDate": lambda args: date.today(),
             "substringAfter": lambda args: args[0][args[0].index(args[1]) + len(args[1]):],
-            "toDate": to_date
+            "toDate": to_date,
+            "removeWhitespace": lambda args: args[0].replace(" ", ""),
+            "replace": lambda args: args[0].replace(args[1], args[2]),
         }
 
     def register_variable(self, name: str, value: Any):
