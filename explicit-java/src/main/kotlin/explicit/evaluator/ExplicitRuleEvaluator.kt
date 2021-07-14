@@ -36,6 +36,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
         val tokenCount = rule.rule.filter { e -> e !is Wildcard && e !is Not }.count()
 
         val wildcard = AtomicBoolean(false)
+        val wildcardCollection = AtomicBoolean(false)
         val candidate = AtomicBoolean(false)
 
         val textNav = Navigator(rule.rule)
@@ -48,7 +49,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
         val wildcardCollector = HashMap<String, ArrayList<String>>()
 
         while (textNav.hasNext()) {
-            val token = textNav.next()
+            var token = textNav.next()
             val isOptional = token is Optional || (token is Alias && token.token is Optional)
 
             if (token is Wildcard) {
@@ -66,6 +67,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                     entries[token.alias] = collector.joinToString(" ")
                 }
                 wildcard.set(true)
+                wildcardCollection.set(true)
                 continue
             }
 
@@ -84,7 +86,30 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                 if (isNegated)
                     return ExplicitRuleEvaluation(false, entries, ArrayList())
 
-                val evaluation = token.evaluate(rulez, ruleNav)
+                var evaluation = token.evaluate(rulez, ruleNav)
+
+                // navigate optionals during wildcard search
+                if (wildcardCollection.get() && isOptional && !evaluation.result) {
+                    val currIndex = textNav.getIndex()
+                    var stopWildcardCollection = false
+
+                    var tmpToken = token
+                    while (tmpToken is Optional) {
+                        tmpToken = textNav.next()
+                        val tmpEvaluation = tmpToken.evaluate(rulez, ruleNav)
+
+                        if (tmpEvaluation.result) {
+                            token = tmpToken
+                            evaluation = tmpEvaluation
+                            stopWildcardCollection = true
+                        }
+                    }
+
+                    // reset index if the wildcard matches the token
+                    if (!stopWildcardCollection) {
+                        textNav.setIndex(currIndex)
+                    }
+                }
 
                 if (containsAny(excludes, evaluation.indices)) {
                     candidate.set(false)
@@ -98,6 +123,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
 
                 if (result) {
                     wildcard.set(false)
+                    wildcardCollection.set(false)
 
                     wildcardCollector.forEach { k, v -> entries[k] = v.joinToString(" ") }
 
@@ -106,7 +132,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                     }
                     break
                 }
-                if (!result && isOptional) {
+                if (!result && isOptional && wildcardCollection.get()) {
                     ruleNav.prev()
                     break
                 }
@@ -119,8 +145,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                     }
                     return ExplicitRuleEvaluation(false, entries, ArrayList())
                 }
-                val optPrev = textNav.getPrev().get()
-                if (!result && optPrev is Alias && optPrev.token is Wildcard) {
+                if (!result && wildcardCollection.get()) {
                     val alias = (textNav.getPrev().get() as Alias).alias
                     wildcardCollector.putIfAbsent(alias, ArrayList())
                     wildcardCollector[alias]?.add(ruleNav.getCurr())

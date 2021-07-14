@@ -21,6 +21,7 @@ class ExplicitEvaluator:
         token_count = len(list(filter(lambda x: not isinstance(x, Wildcard) and not isinstance(x, Not), self.rule.rule)))
         wildcard = False
         candidate = False
+        wildcard_collection = False
 
         text_nav = Navigator(self.rule.rule)
         rule_nav = Navigator(CharacterCaseTokenizer().tokenize(text, self.rulez.tokens))
@@ -37,6 +38,7 @@ class ExplicitEvaluator:
             if isinstance(token, Wildcard):
                 wildcard = True
                 continue
+
             if isinstance(token, Alias) and isinstance(token.token, Wildcard):
                 if not text_nav.has_next():
                     collector = []
@@ -46,6 +48,7 @@ class ExplicitEvaluator:
                         indices.append(rule_nav.get_index())
                     entries[token.alias] = " ".join(collector)
                 wildcard = True
+                wildcard_collection = True
                 continue
 
             if isinstance(token, Not):
@@ -67,6 +70,24 @@ class ExplicitEvaluator:
 
                 evaluation = token.evaluate(self.rulez, rule_nav)
 
+                # navigate optionals during wildcard search
+                if wildcard_collection and is_optional and not evaluation.result:
+                    curr_index = text_nav.index
+                    stop_wildcard_collection = False
+                    _token = token
+                    while isinstance(_token, Optional):
+                        _token = text_nav.__next__()
+                        _evaluation = _token.evaluate(self.rulez, rule_nav)
+
+                        if _evaluation.result:
+                            token = _token
+                            evaluation = _evaluation
+                            stop_wildcard_collection = True
+
+                    # reset index if the wildcard matches the token
+                    if not stop_wildcard_collection:
+                        text_nav.index = curr_index
+
                 if self.contains_any(excludes, evaluation.indices):
                     candidate = False
                     text_nav.reset()
@@ -78,6 +99,7 @@ class ExplicitEvaluator:
 
                 if result:
                     wildcard = False
+                    wildcard_collection = False
 
                     for key in wildcard_collector:
                         entries[key] = " ".join(wildcard_collector[key])
@@ -86,7 +108,7 @@ class ExplicitEvaluator:
                         indices.extend(indices1)
                     break
 
-                if not result and is_optional:
+                if not result and is_optional and not wildcard_collection:
                     rule_nav.prev()
                     break
 
@@ -98,8 +120,7 @@ class ExplicitEvaluator:
                         break
                     return ExplicitEvaluation(False, entries, list())
 
-                opt_prev = text_nav.get_prev()
-                if not result and isinstance(opt_prev, Alias) and isinstance(opt_prev.token, Wildcard):
+                if not result and wildcard_collection:
                     # noinspection PyUnresolvedReferences
                     alias = text_nav.get_prev().alias
                     if alias not in wildcard_collector:
