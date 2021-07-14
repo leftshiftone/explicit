@@ -59,6 +59,7 @@ class ExplicitConversionBinding(variables: Map<String, Any> = mapOf()) : IConver
         functions["substringAfter"] = {it[0].toString().substringAfter(it[1].toString())}
         functions["removeWhitespace"] = {it[0].toString().replace(" ", "")}
         functions["replace"] = {it[0].toString().replace(it[1].toString(), it[2].toString())}
+        functions["concat"] = {it.joinToString("")}
     }
 
     override fun registerVariable(name: String, value: Any) {

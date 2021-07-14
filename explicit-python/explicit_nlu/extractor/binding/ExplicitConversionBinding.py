@@ -42,6 +42,7 @@ class ExplicitConversionBinding(IConversionBinding):
             "toDate": to_date,
             "removeWhitespace": lambda args: args[0].replace(" ", ""),
             "replace": lambda args: args[0].replace(args[1], args[2]),
+            "concat": lambda args: "".join(args),
         }
 
     def register_variable(self, name: str, value: Any):
