@@ -132,7 +132,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                     }
                     break
                 }
-                if (!result && isOptional && wildcardCollection.get()) {
+                if (!result && isOptional && !wildcardCollection.get()) {
                     ruleNav.prev()
                     break
                 }
