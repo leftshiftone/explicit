@@ -277,12 +277,12 @@ substringAfter(s, i) // returns the substring of s beginning at index i
 Releases are triggered locally. Just a tag will be pushed and CI takes care of the rest.
 
 #### Major
-Run `./gradlew final -Prelease.scope=major` locally.
+Run `./gradlew final -x sendReleaseEmail -Prelease.scope=major` locally.
 
 #### Minor
-Run `./gradlew final -Prelease.scope=minor` locally.
+Run `./gradlew final -x sendReleaseEmail -Prelease.scope=minor` locally.
 
 #### Patch
 Must be released from branch (e.g. `release/1.0.x`)
 
-Run `./gradlew final -Prelease.scope=patch` locally.
+Run `./gradlew final -x sendReleaseEmail -Prelease.scope=patch` locally.

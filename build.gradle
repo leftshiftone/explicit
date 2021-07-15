@@ -202,9 +202,6 @@ task pushVersions() {
     }
 }
 pushVersions.dependsOn commitVersions
-if (System.getenv("CI") == null || System.getenv("CI") != "true") {
-    afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushVersions }
-}
 
 private void executeAssertExitCode(List<String> command) {
     int exitCode = execute(command)
@@ -226,3 +223,15 @@ private int execute(List<String> command) {
     logger.debug("Executed command '${command.join(" ")}'")
     return process.exitValue()
 }
+
+ext."signing.keyId" = System.getenv("OSSRH_SIGN_KEY_ID")
+ext."signing.password" = System.getenv("OSSRH_SIGN_KEY_PASSWORD")
+ext."signing.secretKeyRingFile" = System.getenv("OSSRH_SIGN_KEY_PATH")
+signing {
+    sign publishing.publications
+}
+
+if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+    afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushVersions }
+}
+
