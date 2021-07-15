@@ -43,6 +43,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.17"
         classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.30.0"
     }
 }
 
@@ -51,6 +52,18 @@ apply plugin: "one.leftshift.asteria-email"
 apply plugin: "one.leftshift.asteria-report"
 apply plugin: "one.leftshift.asteria-dependency"
 apply plugin: "one.leftshift.asteria-version"
+apply plugin: "maven-publish"
+apply plugin: "signing"
+apply plugin: "io.codearte.nexus-staging"
+
+nexusStaging {
+    packageGroup = "one.leftshift"
+    serverUrl = "https://s01.oss.sonatype.org/service/local/"
+    stagingProfileId = System.getenv("OSSRH_STAGING_PROFILE_ID")
+    username = System.getenv("OSSRH_LOGIN_NAME")
+    password = System.getenv("OSSRH_LOGIN_PASSWORD")
+}
+
 
 asteriaEmail {
     smtpHost = System.getenv("ASTERIA_EMAIL_SMTP_HOST")
@@ -189,9 +202,6 @@ task pushVersions() {
     }
 }
 pushVersions.dependsOn commitVersions
-if (System.getenv("CI") == null || System.getenv("CI") != "true") {
-    afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushVersions }
-}
 
 private void executeAssertExitCode(List<String> command) {
     int exitCode = execute(command)
@@ -213,3 +223,15 @@ private int execute(List<String> command) {
     logger.debug("Executed command '${command.join(" ")}'")
     return process.exitValue()
 }
+
+ext."signing.keyId" = System.getenv("OSSRH_SIGN_KEY_ID")
+ext."signing.password" = System.getenv("OSSRH_SIGN_KEY_PASSWORD")
+ext."signing.secretKeyRingFile" = System.getenv("OSSRH_SIGN_KEY_PATH")
+signing {
+    sign publishing.publications
+}
+
+if (System.getenv("CI") == null || System.getenv("CI") != "true") {
+    afterEvaluate { rootProject.tasks.release.dependsOn rootProject.tasks.pushVersions }
+}
+
