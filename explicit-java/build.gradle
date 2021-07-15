@@ -16,7 +16,6 @@
 
 apply plugin: "kotlin"
 apply plugin: "org.jetbrains.dokka"
-apply plugin: "com.jfrog.bintray"
 apply plugin: "one.leftshift.asteria-dependency"
 apply plugin: "one.leftshift.asteria-publish"
 apply plugin: "one.leftshift.asteria-version"
@@ -55,7 +54,7 @@ artifacts {
 }
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        release(MavenPublication) {
             artifactId rootProject.name
             from components.java
             artifact sourceJar
@@ -86,21 +85,21 @@ publishing {
             }
         }
     }
-}
-
-bintray {
-    logger.info "Bintray deploy with user [${System.getenv('BINTRAY_USER')}] while working on ${project.name}"
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publish = true
-    override = true
-    pkg {
-        repo = "explicit"
-        name = "${project.group}.${project.name}"
-        userOrg = "leftshiftone"
-        licenses = ["MIT"]
-        vcsUrl = "https://github.com/leftshiftone/explicit.git"
-        publications = ["mavenJava"]
+    repositories {
+        maven {
+            name = "sonatype"
+            url = version.toString().endsWith("SNAPSHOT") ? "https://s01.oss.sonatype.org/content/repositories/snapshots" : "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username System.getenv("OSSRH_LOGIN_NAME")
+                password System.getenv("OSSRH_LOGIN_PASSWORD")
+            }
+        }
     }
 }
 
+ext."signing.keyId" = System.getenv("OSSRH_SIGN_KEY_ID")
+ext."signing.password" = System.getenv("OSSRH_SIGN_KEY_PASSWORD")
+ext."signing.secretKeyRingFile" = System.getenv("OSSRH_SIGN_KEY_PATH")
+signing {
+    sign publishing.publications
+}

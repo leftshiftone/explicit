@@ -88,11 +88,12 @@ jobs:
           fingerprints:
             - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
       - checkout
+      - run: echo $OSSRH_SIGN_KEY_CONTENT | base64 --decode > "$OSSRH_SIGN_KEY_PATH"
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
       - run: chmod a+x gradlew
       - run: ./gradlew dependencies installDependencies
       - run: ./gradlew assemble --stacktrace
-      - run: ./gradlew candidate publish -x test -x bintrayUpload -Prelease.useLastTag=true --stacktrace
+      - run: ./gradlew candidate publish -x test -Prelease.useLastTag=true --stacktrace
       - run:
           <<: *webhook-failed
 
@@ -113,12 +114,13 @@ jobs:
           fingerprints:
             - "dc:17:c5:39:f0:6a:ac:48:bf:21:d4:82:7c:28:95:b2"
       - checkout
+      - run: echo $OSSRH_SIGN_KEY_CONTENT | base64 --decode > "$OSSRH_SIGN_KEY_PATH"
       - run: git config --local user.email "ci@leftshift.one" && git config --local user.name "Continuous Integration"
       - run: chmod a+x gradlew
       - run: ./gradlew dependencies installDependencies
       - run: ./gradlew test --stacktrace
       - run: ./gradlew assemble --stacktrace
-      - run: ./gradlew final publish -Prelease.useLastTag=true --stacktrace
+      - run: ./gradlew final publish -Prelease.useLastTag=true --max-workers 1 closeAndReleaseRepository --stacktrace
       - run:
           <<: *webhook-failed
 

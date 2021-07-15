@@ -51,6 +51,18 @@ apply plugin: "one.leftshift.asteria-email"
 apply plugin: "one.leftshift.asteria-report"
 apply plugin: "one.leftshift.asteria-dependency"
 apply plugin: "one.leftshift.asteria-version"
+apply plugin: "maven-publish"
+apply plugin: "signing"
+apply plugin: "io.codearte.nexus-staging"
+
+nexusStaging {
+    packageGroup = "one.leftshift"
+    serverUrl = "https://s01.oss.sonatype.org/service/local/"
+    stagingProfileId = System.getenv("OSSRH_STAGING_PROFILE_ID")
+    username = System.getenv("OSSRH_LOGIN_NAME")
+    password = System.getenv("OSSRH_LOGIN_PASSWORD")
+}
+
 
 asteriaEmail {
     smtpHost = System.getenv("ASTERIA_EMAIL_SMTP_HOST")
