@@ -121,7 +121,7 @@ jobs:
       - run: ./gradlew dependencies installDependencies
       - run: ./gradlew test --stacktrace
       - run: ./gradlew assemble --stacktrace
-      - run: ./gradlew final publish -Prelease.useLastTag=true --max-workers 1 closeAndReleaseRepository --stacktrace
+      - run: ./gradlew final publish -x :explicit-java:publishMavenPomPublicationToSonatypeRepository -Prelease.useLastTag=true --max-workers 1 closeAndReleaseRepository --stacktrace
       - run:
           <<: *webhook-failed
 
