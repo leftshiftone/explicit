@@ -35,6 +35,7 @@ jobs:
       - run:
           <<: *prepare-image
       - checkout
+      - run: echo $OSSRH_SIGN_KEY_CONTENT | base64 --decode > "$OSSRH_SIGN_KEY_PATH"
       - run: mkdir -p $TEST_RESULTS_PATH
       - run: chmod a+x gradlew
       - restore_cache:
@@ -175,12 +176,16 @@ workflows:
   build:
     jobs:
       - build:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
           filters:
             tags:
               ignore: /.*/
       - webhook-completed:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
           filters:
             tags:
               ignore: /.*/
@@ -196,22 +201,30 @@ workflows:
                 - master
     jobs:
       - build:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
       - webhook-completed:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
           requires:
             - build
   release-candidate:
     jobs:
       - release-candidate:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^v\d+\.\d+\.\d+-rc\.\d+$/
       - webhook-completed:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
           filters:
             branches:
               ignore: /.*/
@@ -222,14 +235,18 @@ workflows:
   release:
     jobs:
       - release:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
           filters:
             branches:
               ignore: /.*/
             tags:
               only: /^v\d+\.\d+\.\d+$/
       - webhook-completed:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
           filters:
             branches:
               ignore: /.*/
@@ -247,8 +264,12 @@ workflows:
                 - master
     jobs:
       - code-analytics:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
       - webhook-completed:
-          context: asteria
+          context:
+            - asteria
+            - maven-central
           requires:
             - code-analytics
