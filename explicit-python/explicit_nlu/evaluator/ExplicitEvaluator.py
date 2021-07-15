@@ -122,10 +122,12 @@ class ExplicitEvaluator:
 
                 if not result and wildcard_collection:
                     # noinspection PyUnresolvedReferences
-                    alias = text_nav.get_prev().alias
-                    if alias not in wildcard_collector:
-                        wildcard_collector[alias] = []
-                    wildcard_collector[alias].append(rule_nav.get_curr())
+                    prev = text_nav.get_prev()
+                    if isinstance(prev, Alias):
+                        alias = prev.alias
+                        if alias not in wildcard_collector:
+                            wildcard_collector[alias] = []
+                        wildcard_collector[alias].append(rule_nav.get_curr())
 
         return ExplicitEvaluation(candidate, entries, indices)
 

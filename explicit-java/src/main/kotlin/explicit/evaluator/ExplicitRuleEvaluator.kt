@@ -146,9 +146,11 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                     return ExplicitRuleEvaluation(false, entries, ArrayList())
                 }
                 if (!result && wildcardCollection.get()) {
-                    val alias = (textNav.getPrev().get() as Alias).alias
-                    wildcardCollector.putIfAbsent(alias, ArrayList())
-                    wildcardCollector[alias]?.add(ruleNav.getCurr())
+                    if (textNav.getPrev().isPresent && textNav.getPrev().get() is Alias) {
+                        val alias = (textNav.getPrev().get() as Alias).alias
+                        wildcardCollector.putIfAbsent(alias, ArrayList())
+                        wildcardCollector[alias]?.add(ruleNav.getCurr())
+                    }
                 }
             }
         }
