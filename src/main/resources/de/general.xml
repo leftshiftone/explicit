@@ -1,0 +1,55 @@
+<explicit name="general">
+    <tokens>
+        <token pattern="–" replacement="-" />
+        <token pattern="([0-9]{1,2})\.(woche)" regex="true" />
+        <token pattern="[0-9]{1,2}/([0-9]{1,2}\.[0-9]{1,2})" regex="true" />
+        <token pattern="[0-9]{1,2}\.[0-9]{1,2}\. ?[0-9]{2,4}\.?" regex="true" />
+        <token pattern="[0-9]{1,2}\\[0-9]{1,2}\\ ?[0-9]{2,4}" regex="true" />
+        <token pattern="[0-9]{1,2}/[0-9]{1,2}/ ?[0-9]{2,4}" regex="true" />
+        <token pattern="[0-9]{1,2}\-[0-9]{1,2}\- ?[0-9]{2,4}" regex="true" />
+        <token pattern="[0-9]{2,4}\.[0-9]{1,2}\. ?[0-9]{1,2}\.?" regex="true" />
+        <token pattern="[0-9]{2,4}\\[0-9]{1,2}\\ ?[0-9]{1,2}" regex="true" />
+        <token pattern="[0-9]{2,4}/[0-9]{1,2}/ ?[0-9]{1,2}" regex="true" />
+        <token pattern="[0-9]{2,4}-[0-9]{1,2}- ?[0-9]{1,2}" regex="true" />
+        <token pattern="([0-9]{1,2}\.[0-9]{1,2})(/)([0-9]{1,2}\.[0-9]{1,2})$" regex="true" />
+        <token pattern="([0-9]{1,2})\.(\-)([0-9]{1,2})\." regex="true" />
+        <token pattern="[0-9]{1,2}\.[0-9]{1,2}\.?$" regex="true" />
+        <token pattern="[0-9]{1,2}\\[0-9]{1,2}\\?$" regex="true" />
+        <token pattern="[0-9]{1,2}/[0-9]{1,2}/?$" regex="true" />
+        <token pattern="[0-9]{1,2}-[0-9]{1,2}-?$" regex="true" />
+        <token pattern="([0-9]+)\.$" regex="true" boundary="false" />
+    </tokens>
+
+    <patterns>
+        <dateDMY>[0-9]{1,2}[\.\\/\-][0-9]{1,2}[\.\\/\-] ?[0-9]{2,4}[\.\\/\-]?</dateDMY>
+        <dateYDM>[0-9]{2,4}[\.\\/\-][0-9]{1,2}[\.\\/\-] ?[0-9]{1,2}[\.\\/\-]?</dateYDM>
+        <dateDM>[0-9]{1,2}[\.\\/\-][0-9]{1,2}[\.\\/\-]?</dateDM>
+
+        <dateNumber2>[0-9]{1,2}</dateNumber2>
+        <dateNumber4>[0-9]{4}</dateNumber4>
+
+        <dateDay>([0-2]{0,1}[0-9]|[3][0-1]\.?)</dateDay>
+        <dateMonth>([0]{0,1}[0-9]|[1][0-2]\.?)</dateMonth>
+        <dateYear>[0-9]{2}|[0-9]{4}|</dateYear>
+    </patterns>
+
+    <rule>
+        <eql>
+            {dateDM}?:d1dm {dateDMY}?:d1dmy {dateDay}?:d1d {dateMonth}?:d1m #month?:d1m {dateYear}?:d1y
+            [bis -] [zu zum]?
+            {dateDM}?:d2dm {dateDMY}?:d2dmy {dateDay}?:d2d {dateMonth}?:d2m #month?:d2m {dateYear}?:d2y
+        </eql>
+        <ner>
+            <date1d>$d1d</date1d>
+            <date1m>$d1m</date1m>
+            <date1y>$d1y</date1y>
+            <date1dm>$d1dm</date1dm>
+            <date1dmy>$d1dmy</date1dmy>
+            <date2d>$d2d</date2d>
+            <date2m>$d2m</date2m>
+            <date2y>$d2y</date2y>
+            <date2dm>$d2dm</date2dm>
+            <date2dmy>$d2dmy</date2dmy>
+        </ner>
+    </rule>
+</explicit>
