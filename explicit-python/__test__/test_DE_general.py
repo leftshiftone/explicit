@@ -1,12 +1,11 @@
 import os
-import datetime
 import unittest
 
 from explicit_nlu.ExplicitEngine import ExplicitEngine
 from explicit_nlu.parser.xml.ExplicitXmlParser import ExplicitXmlParser
 
 
-class DEDateTimeTest(unittest.TestCase):
+class DEGeneralTest(unittest.TestCase):
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
     def test(self):
