@@ -38,19 +38,19 @@ class DEGeneralTest(unittest.TestCase):
         self.assertEqual(result, [check])
 
         result = engine.execute("""
-            Wunschtermin ist der 6. - 09.08.2021. Wir sind insgesamt um die 8 Erwachsene und 4 Kinder. Gerne würden wir uns selbst versorgen, aber auch Frühstücksservice wäre ok, wenn es dabei ist. Schön wäre es, wenn die Lage auf dem Land ist, wo man gut einfache Wanderungen und Ausflüge machen kann. Gerne auch mit Tieren, falls das möglich ist. Wenn eine Sauna dabei oder in der Nähe ist, wär das ein Highlight - aber muss nicht dringend sein. Können Sie mir bitte Angebote zusenden.
+            Wunschtermin ist der 6. - 09.04.2020. Wir sind insgesamt um die 8 Erwachsene und 4 Kinder. Gerne würden wir uns selbst versorgen. Wenn eine Sauna dabei oder in der Nähe ist, wär das ein Highlight - aber muss nicht dringend sein. Können Sie mir bitte Angebote zusenden.
             """
         )
         check = default_check.copy()
-        check.update({"date1d": "6", "date2dmy": "09.08.2021."})
+        check.update({"date1d": "6", "date2dmy": "09.04.2020."})
         self.assertEqual(result, [check])
 
         result = engine.execute("""
-            Wunschtermin ist der 6. - 09.08.2021. Wir sind insgesamt um die 8 Erwachsene und 4 Kinder. Gerne würden wir uns selbst versorgen, aber auch Frühstücksservice wäre ok, wenn es dabei ist. Schön wäre es, wenn die Lage auf dem Land ist, wo man gut einfache Wanderungen und Ausflüge machen kann. Gerne auch mit Tieren, falls das möglich ist. Wenn eine Sauna dabei oder in der Nähe ist, wär das ein Highlight, aber muss nicht dringend sein. Können Sie mir bitte Angebote zusenden.
+            Wunschtermin ist der 6. - 09.04.2020. Wir sind insgesamt um die 8 Erwachsene und 4 Kinder. Gerne würden wir uns selbst versorgen. Wenn eine Sauna dabei oder in der Nähe ist, wär das ein Highlight, aber muss nicht dringend sein. Können Sie mir bitte Angebote zusenden.
             """
         )
         check = default_check.copy()
-        check.update({"date1d": "6", "date2dmy": "09.08.2021."})
+        check.update({"date1d": "6", "date2dmy": "09.04.2020."})
         self.assertEqual(result, [check])
 
     if __name__ == '__main__':
