@@ -114,7 +114,7 @@ class ExplicitEvaluator:
 
                 if not result and not wildcard:
                     #check how much words are remaining and reset the first navigator
-                    if rule_nav.get_remaining() >= token_count - 1 and not is_negated:
+                    if rule_nav.get_remaining() >= text_nav.get_remaining() and not is_negated:
                         candidate = False
                         text_nav.reset()
                         break
