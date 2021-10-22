@@ -23,16 +23,16 @@ class ExplicitEvaluator:
         candidate = False
         wildcard_collection = False
 
-        text_nav = Navigator(self.rule.rule)
-        rule_nav = Navigator(CharacterCaseTokenizer().tokenize(text, self.rulez.tokens))
+        rule_nav = Navigator(self.rule.rule)
+        text_nav = Navigator(CharacterCaseTokenizer().tokenize(text, self.rulez.tokens))
 
         entries:Dict[str, str] = dict()
         negations:List[IToken] = []
         indices:List[int] = []
         wildcard_collector: Dict[str, List[str]] = {}
 
-        while text_nav.has_next():
-            token = text_nav.__next__()
+        while rule_nav.has_next():
+            token = rule_nav.__next__()
             is_optional = isinstance(token, Optional) or (isinstance(token, Alias) and isinstance(token.token, Optional))
 
             if isinstance(token, Wildcard):
@@ -40,12 +40,12 @@ class ExplicitEvaluator:
                 continue
 
             if isinstance(token, Alias) and isinstance(token.token, Wildcard):
-                if not text_nav.has_next():
+                if not rule_nav.has_next():
                     collector = []
-                    while rule_nav.has_next():
-                        rule_nav.__next__()
-                        collector.append(rule_nav.get_curr())
-                        indices.append(rule_nav.get_index())
+                    while text_nav.has_next():
+                        text_nav.__next__()
+                        collector.append(text_nav.get_curr())
+                        indices.append(text_nav.get_index())
                     entries[token.alias] = " ".join(collector)
                 wildcard = True
                 wildcard_collection = True
@@ -55,29 +55,29 @@ class ExplicitEvaluator:
                 negations.append(token.token)
                 continue
 
-            if not rule_nav.has_next():
+            if not text_nav.has_next():
                 if is_optional:
                     continue
                 return ExplicitEvaluation(False, entries, list())
 
-            while rule_nav.has_next():
-                rule_nav.__next__()
+            while text_nav.has_next():
+                text_nav.__next__()
 
-                is_negated = len(list(filter(lambda x: x.evaluate(self.rulez, rule_nav).result, negations))) > 0
+                is_negated = len(list(filter(lambda x: x.evaluate(self.rulez, text_nav).result, negations))) > 0
 
                 if is_negated:
                     return ExplicitEvaluation(False, entries, list())
 
-                evaluation = token.evaluate(self.rulez, rule_nav)
+                evaluation = token.evaluate(self.rulez, text_nav)
 
                 # navigate optionals during wildcard search
                 if wildcard_collection and is_optional and not evaluation.result:
-                    curr_index = text_nav.index
+                    curr_index = rule_nav.index
                     stop_wildcard_collection = False
                     _token = token
                     while isinstance(_token, Optional):
-                        _token = text_nav.__next__()
-                        _evaluation = _token.evaluate(self.rulez, rule_nav)
+                        _token = rule_nav.__next__()
+                        _evaluation = _token.evaluate(self.rulez, text_nav)
 
                         if _evaluation.result:
                             token = _token
@@ -86,11 +86,11 @@ class ExplicitEvaluator:
 
                     # reset index if the wildcard matches the token
                     if not stop_wildcard_collection:
-                        text_nav.index = curr_index
+                        rule_nav.index = curr_index
 
                 if self.contains_any(excludes, evaluation.indices):
                     candidate = False
-                    text_nav.reset()
+                    rule_nav.reset()
                     break
 
                 entries.update(evaluation.entries)
@@ -104,30 +104,32 @@ class ExplicitEvaluator:
                     for key in wildcard_collector:
                         entries[key] = " ".join(wildcard_collector[key])
 
-                    if len(self.rule.idx) == 0 or (text_nav.get_index() - 1) in self.rule.idx:
+                    if len(self.rule.idx) == 0 or (rule_nav.get_index() - 1) in self.rule.idx:
                         indices.extend(indices1)
                     break
 
                 if not result and is_optional and not wildcard_collection:
-                    rule_nav.prev()
+                    text_nav.prev()
                     break
 
                 if not result and not wildcard:
-                    #check how much words are remaining and reset the first navigator
-                    if rule_nav.get_remaining() >= text_nav.get_remaining() and not is_negated:
+                    # check how much words are remaining and reset the first navigator
+                    if text_nav.get_remaining() >= rule_nav.get_remaining() and not is_negated:
                         candidate = False
-                        text_nav.reset()
+                        rule_nav.reset()
+                        indices.clear()
+                        entries.clear()
                         break
                     return ExplicitEvaluation(False, entries, list())
 
                 if not result and wildcard_collection:
                     # noinspection PyUnresolvedReferences
-                    prev = text_nav.get_prev()
+                    prev = rule_nav.get_prev()
                     if isinstance(prev, Alias):
                         alias = prev.alias
                         if alias not in wildcard_collector:
                             wildcard_collector[alias] = []
-                        wildcard_collector[alias].append(rule_nav.get_curr())
+                        wildcard_collector[alias].append(text_nav.get_curr())
 
         return ExplicitEvaluation(candidate, entries, indices)
 

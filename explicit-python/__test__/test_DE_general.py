@@ -43,7 +43,7 @@ class DEGeneralTest(unittest.TestCase):
         )
         check = default_check.copy()
         check.update({"date1d": "6", "date2dmy": "09.04.2020."})
-        self.assertEqual(result, [check])
+        self.assertEqual(result, [check, default_check])
 
         result = engine.execute("""
             Wunschtermin ist der 6. - 09.04.2020. Wir sind insgesamt um die 8 Erwachsene und 4 Kinder. Gerne würden wir uns selbst versorgen. Wenn eine Sauna dabei oder in der Nähe ist, wär das ein Highlight, aber muss nicht dringend sein. Können Sie mir bitte Angebote zusenden.
