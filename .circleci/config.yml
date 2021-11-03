@@ -1,12 +1,12 @@
 webhook-created: &webhook-created
   name: Webhook created
   command: |
-    curl $WEBHOOK_BUILD_URL\?flow\=circleci-created -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"$CIRCLE_BRANCH"'","build_number":"'"$CIRCLE_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
+    curl --insecure $WEBHOOK_BUILD_URL\?flow\=circleci-created -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"$CIRCLE_BRANCH"'","build_number":"'"$CIRCLE_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
 webhook-failed: &webhook-failed
   name: Webhook completed
   when: on_fail
   command: |
-    curl $WEBHOOK_BUILD_URL\?flow\=circleci-completed\&status\=FAILED -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"$CIRCLE_BRANCH"'","build_number":"'"$CIRCLE_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
+    curl --insecure $WEBHOOK_BUILD_URL\?flow\=circleci-completed\&status\=FAILED -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"$CIRCLE_BRANCH"'","build_number":"'"$CIRCLE_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
 prepare-image: &prepare-image
   name: Prepare image
   command: apt-get update && apt-get install -y openjdk-8-jdk && pip install --no-cache-dir "poetry==1.0.0"
@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Webhook completed
           command: |
-            curl $WEBHOOK_BUILD_URL\?flow\=circleci-completed -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"${CIRCLE_BRANCH:-${CIRCLE_TAG/-/\/}}"'","build_number":"'"$CIRCLE_PREVIOUS_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
+            curl --insecure $WEBHOOK_BUILD_URL\?flow\=circleci-completed -d '{"repository":"'"$CIRCLE_PROJECT_REPONAME"'","branch":"'"${CIRCLE_BRANCH:-${CIRCLE_TAG/-/\/}}"'","build_number":"'"$CIRCLE_PREVIOUS_BUILD_NUM"'","build_url":"'"$CIRCLE_BUILD_URL"'"}' -H "Content-Type: application/json" -X POST -i || true
   build:
     docker:
       - image: python:3.7-stretch
