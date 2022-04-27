@@ -1,13 +1,9 @@
-# Generated from EQL.g4 by ANTLR 4.8
+# Generated from EQL.g4 by ANTLR 4.7
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
+from typing.io import TextIO
 import sys
-if sys.version_info[1] > 5:
-	from typing import TextIO
-else:
-	from typing.io import TextIO
-
 
 def serializedATN():
     with StringIO() as buf:
@@ -124,10 +120,9 @@ class EQLParser ( Parser ):
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.8")
+        self.checkVersion("4.7")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
-
 
 
 
@@ -333,7 +328,6 @@ class EQLParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class EscapedContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -378,7 +372,6 @@ class EQLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class GroupContext(ParserRuleContext):
 
@@ -472,7 +465,6 @@ class EQLParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class LikeContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -524,7 +516,6 @@ class EQLParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class TextContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -569,7 +560,6 @@ class EQLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class Not_Context(ParserRuleContext):
 
@@ -643,7 +633,6 @@ class EQLParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class WildcardContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -688,7 +677,6 @@ class EQLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class OptionalContext(ParserRuleContext):
 
@@ -788,7 +776,6 @@ class EQLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class AliasContext(ParserRuleContext):
 
@@ -916,7 +903,6 @@ class EQLParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class LabelContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -967,7 +953,6 @@ class EQLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class SlotContext(ParserRuleContext):
 
@@ -1024,18 +1009,11 @@ class EQLParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class AtomicContext(ParserRuleContext):
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
             super().__init__(parent, invokingState)
             self.parser = parser
-
-        def ROUND_LEFT(self):
-            return self.getToken(EQLParser.ROUND_LEFT, 0)
-
-        def ROUND_RIGHT(self):
-            return self.getToken(EQLParser.ROUND_RIGHT, 0)
 
         def text(self, i:int=None):
             if i is None:
@@ -1111,7 +1089,6 @@ class EQLParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class RegexContext(ParserRuleContext):
 
