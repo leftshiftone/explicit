@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "explicit-nlu"
-version = "0.10.2"
+version = "0.10.3"
 description = "Explicit is a cross platform library for rule based named entity recognition."
 authors = ["Leftshift One <contact@leftshift.one>"]
 
