@@ -15,7 +15,7 @@ ROUND_LEFT  : '(';
 ROUND_RIGHT : ')';
 CURLY_LEFT  : '{';
 CURLY_RIGHT : '}';
-TEXT        : ([a-zA-Z0-9\u00DC\u00FC\u00D6\u00F6\u00C4\u00E4\u00DF\u20AC\u002F-] | COMMA | DOT)+ ;
+TEXT        : ( [\p{Alphabetic}0-9'/-] | COMMA | DOT )+;
 COMMA       : ',';
 DOT         : '.';
 ESCAPED    : BACKSLASH ( COLON | OPTIONAL | TILDE | WILDCARD );
