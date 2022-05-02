@@ -61,20 +61,24 @@ class ExplicitXmlParser {
                     list
                 })
 
-        // implicit entities
-        ner.add(node.find("ner")
+        val nerEntries = node.find("ner")
                 .childNodes
                 .filter { e -> e.nodeName != "entity" && e.nodeName != "#text" }
-                .map { e ->
-                    val entity = HashMap<String, String>()
-                    e.childNodes
-                            .filter { x -> x.nodeName == "#text" }
-                            .forEach { x -> entity[e.nodeName] = x.textContent }
-                    entity
-                }.reduce { a, b ->
-                    a.putAll(b)
-                    a
-                })
+
+        // implicit entities
+        if (nerEntries.isNotEmpty()) {
+            ner.add(nerEntries
+                    .map { e ->
+                        val entity = HashMap<String, String>()
+                        e.childNodes
+                                .filter { x -> x.nodeName == "#text" }
+                                .forEach { x -> entity[e.nodeName] = x.textContent }
+                        entity
+                    }.reduce { a, b ->
+                        a.putAll(b)
+                        a
+                    })
+        }
 
         val idx = getIdx(node)
         return ExplicitRule(AntlrParser().getTokens(eql), ner, idx)

@@ -44,7 +44,7 @@ class Navigator<T>(val list: List<T>) : Iterator<T>, Iterable<T> {
 
     fun getPrev(): Optional<T> {
         if (index.get() >= 2)
-            return Optional.of(list[index.get() - 1])
+            return Optional.of(list[index.get() - 2])
         return Optional.empty()
     }
 
