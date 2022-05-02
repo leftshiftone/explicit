@@ -36,8 +36,8 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
         val tokenCount = rule.rule.filter { e -> e !is Wildcard && e !is Not }.count()
 
         val wildcard = AtomicBoolean(false)
-        val wildcardCollection = AtomicBoolean(false)
         val candidate = AtomicBoolean(false)
+        val wildcardCollection = AtomicBoolean(false)
 
         val ruleNav = Navigator(rule.rule)
         val textNav = Navigator(CharacterCaseTokenizer().tokenize(text, rulez.tokens))
@@ -57,7 +57,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                 continue
             }
             if (token is Alias && token.token is Wildcard) {
-                if (ruleNav.hasNext()) {
+                if (!ruleNav.hasNext()) {
                     val collector = ArrayList<String>()
                     while (textNav.hasNext()) {
                         textNav.next()
