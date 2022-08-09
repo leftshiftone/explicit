@@ -59,7 +59,7 @@ class DEGeneralTest(unittest.TestCase):
         engine = ExplicitEngine(rules)
 
         result = engine.execute("123 456 mm")
-        expected_result = [{"nn": "456", "uu": "mm"}]
+        expected_result = [{"value": "456", "unit": "mm"}]
 
         self.assertEqual(result, expected_result)
 
