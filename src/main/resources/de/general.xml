@@ -31,7 +31,19 @@
         <dateDay>([0-2]{0,1}[0-9]|[3][0-1]\.?)</dateDay>
         <dateMonth>([0]{0,1}[0-9]|[1][0-2]\.?)</dateMonth>
         <dateYear>[0-9]{2}|[0-9]{4}|</dateYear>
+
+        <unit>(m|cm|mm)</unit>
     </patterns>
+
+    <rule>
+        <eql>
+            {number}:value {unit}:unit
+        </eql>
+        <ner>
+            <value>$value</value>
+            <unit>$unit</unit>
+        </ner>
+    </rule>
 
     <rule>
         <eql>
