@@ -141,6 +141,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                     if (textNav.getRemaining() >= ruleNav.getRemaining() && !isNegated) {
                         candidate.set(false)
                         ruleNav.reset()
+                        textNav.prev()
                         indices.clear()
                         entries.clear()
                         break

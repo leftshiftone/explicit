@@ -15,10 +15,9 @@ class ExplicitEvaluator:
     rule: ExplicitRule
 
     def evaluate(self, text: str, excludes: List[List[int]] = []) -> ExplicitEvaluation:
-        if len(list(filter(lambda x: not isinstance(x, Wildcard), self.rule.rule))) is 0:
+        if len(list(filter(lambda x: not isinstance(x, Wildcard), self.rule.rule))) == 0:
             return ExplicitEvaluation(True, dict(), list())
 
-        token_count = len(list(filter(lambda x: not isinstance(x, Wildcard) and not isinstance(x, Not), self.rule.rule)))
         wildcard = False
         candidate = False
         wildcard_collection = False
@@ -117,6 +116,7 @@ class ExplicitEvaluator:
                     if text_nav.get_remaining() >= rule_nav.get_remaining() and not is_negated:
                         candidate = False
                         rule_nav.reset()
+                        text_nav.prev()
                         indices.clear()
                         entries.clear()
                         break
