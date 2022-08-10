@@ -33,7 +33,7 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
         if (rule.rule.all { e -> e is Wildcard })
             return ExplicitRuleEvaluation(true, HashMap(), ArrayList(HashSet()))
 
-        val tokenCount = rule.rule.filter { e -> e !is Wildcard && e !is Not }.count()
+        val monitor = ArrayList<String>()
 
         val wildcard = AtomicBoolean(false)
         val candidate = AtomicBoolean(false)
@@ -139,9 +139,15 @@ class ExplicitRuleEvaluator(val rulez: ExplicitRules, val rule: ExplicitRule) {
                 if (!result && !wildcard.get()) {
                     // check how much words are remaining and reset the first navigator
                     if (textNav.getRemaining() >= ruleNav.getRemaining() && !isNegated) {
+                        val key = textNav.getIndex() + ":" + ruleNav.getIndex()
+
+                        if (!monitor.contains(key)) {
+                            textNav.prev()
+                            monitor.add(key)
+                        }
+
                         candidate.set(false)
                         ruleNav.reset()
-                        textNav.prev()
                         indices.clear()
                         entries.clear()
                         break

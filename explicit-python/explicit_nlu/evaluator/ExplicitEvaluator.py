@@ -18,6 +18,8 @@ class ExplicitEvaluator:
         if len(list(filter(lambda x: not isinstance(x, Wildcard), self.rule.rule))) == 0:
             return ExplicitEvaluation(True, dict(), list())
 
+        monitor = []
+
         wildcard = False
         candidate = False
         wildcard_collection = False
@@ -114,9 +116,14 @@ class ExplicitEvaluator:
                 if not result and not wildcard:
                     # check how much words are remaining and reset the first navigator
                     if text_nav.get_remaining() >= rule_nav.get_remaining() and not is_negated:
+                        key = f"{text_nav.index}:{rule_nav.index}"
+
+                        if key not in monitor:
+                            text_nav.prev()
+                            monitor.append(key)
+
                         candidate = False
                         rule_nav.reset()
-                        text_nav.prev()
                         indices.clear()
                         entries.clear()
                         break
