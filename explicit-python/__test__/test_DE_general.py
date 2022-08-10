@@ -8,7 +8,7 @@ from explicit_nlu.parser.xml.ExplicitXmlParser import ExplicitXmlParser
 class DEGeneralTest(unittest.TestCase):
     root_dir = os.path.dirname(os.path.realpath(__file__))
 
-    def test(self):
+    def test_1(self):
         # logging.basicConfig(level = logging.DEBUG)
 
         rules = ExplicitXmlParser().parse(f"{self.root_dir}/../../src/main/resources/de/general.xml")
@@ -52,6 +52,17 @@ class DEGeneralTest(unittest.TestCase):
         check = default_check.copy()
         check.update({"date1d": "6", "date2dmy": "09.04.2020."})
         self.assertEqual(result, [check])
+
+    def test_2(self):
+
+        rules = ExplicitXmlParser().parse(f"{self.root_dir}/../../src/main/resources/de/general.xml")
+        engine = ExplicitEngine(rules)
+
+        result = engine.execute("123 456 mm")
+        expected_result = [{"value": "456", "unit": "mm"}]
+
+        self.assertEqual(result, expected_result)
+
 
     if __name__ == '__main__':
         unittest.main()
